@@ -97,6 +97,7 @@ model Inquiry {
   budget      String?
   timeline    String?
   description String
+  additionalRequirements String?
   status      InquiryStatus @default(NEW)
   createdAt   DateTime      @default(now())
 
