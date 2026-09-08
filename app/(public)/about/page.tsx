@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Image from "next/image";
+import { FOUNDERS } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "About — zunark-ai",
-  description: "Why zunark-ai exists and how we work.",
+  description: "Why zunark-ai exists, how we work, and who's behind it.",
 };
 
 export default function AboutPage() {
@@ -47,16 +48,79 @@ export default function AboutPage() {
             actually means for a given client.
           </p>
           <p>
-            zunark-ai is a new company, founded and run by{" "}
-            <Link href="/founders" className="zk-link underline" style={{ color: "var(--zk-fg)" }}>
-              Mohammed Zahid Khan and Mohammed Kamar
-            </Link>
-            , with a long-term goal of building a technology organization capable of
-            delivering digital solutions to businesses at scale. We&apos;re starting
-            small and building the foundation properly — not claiming a size or history
-            we don&apos;t have yet.
+            zunark-ai is a new company, with a long-term goal of building a technology
+            organization capable of delivering digital solutions to businesses at scale.
+            We&apos;re starting small and building the foundation properly — not
+            claiming a size or history we don&apos;t have yet.
           </p>
         </div>
+      </div>
+
+      <div className="mt-16 max-w-2xl">
+        <div
+          className="mb-3 text-xs uppercase tracking-wider"
+          style={{ fontFamily: "var(--font-mono-fam)", color: "var(--zk-accent1)" }}
+        >
+          Founders
+        </div>
+        <h2 className="mb-10 text-2xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+          Founder-led, from day one
+        </h2>
+      </div>
+
+      <div className="grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-2">
+        {FOUNDERS.map((founder) => (
+          <div
+            key={founder.slug}
+            className="overflow-hidden rounded-2xl border"
+            style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}
+          >
+            <div className="relative aspect-[4/5] w-full">
+              {founder.photo ? (
+                <Image
+                  src={founder.photo}
+                  alt={founder.name}
+                  fill
+                  sizes="(min-width: 640px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              ) : (
+                <div
+                  className="flex h-full w-full items-center justify-center text-5xl font-semibold"
+                  style={{
+                    background: "linear-gradient(135deg, var(--zk-accent1), var(--zk-accent2))",
+                    color: "oklch(0.14 0.02 205)",
+                    fontFamily: "var(--font-display-fam)",
+                  }}
+                >
+                  {founder.initials}
+                </div>
+              )}
+            </div>
+            <div className="p-8">
+              <h3 className="mb-1 text-xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+                {founder.name}
+              </h3>
+              <div className="mb-5 text-sm" style={{ color: "var(--zk-accent1)", fontFamily: "var(--font-mono-fam)" }}>
+                {founder.role}
+              </div>
+              <p className="mb-6 text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>
+                {founder.bio}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {founder.focus.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border px-3 py-1 text-xs"
+                    style={{ borderColor: "var(--zk-border)", color: "var(--zk-fg-muted)" }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
