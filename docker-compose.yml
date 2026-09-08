@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: zunark
+      POSTGRES_PASSWORD: zunark_dev_password
+      POSTGRES_DB: zunark_ai
+    ports:
+      - "5432:5432"
+    volumes:
+      - zunark_pgdata:/var/lib/postgresql/data
+
+volumes:
+  zunark_pgdata:
