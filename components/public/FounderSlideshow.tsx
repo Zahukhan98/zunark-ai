@@ -25,7 +25,7 @@ export function FounderSlideshow({
   if (photos.length === 0) {
     return (
       <div
-        className="mb-6 flex h-[88px] w-[88px] items-center justify-center rounded-full text-2xl font-semibold"
+        className="flex h-full w-full items-center justify-center text-5xl font-semibold"
         style={{
           background: "linear-gradient(135deg, var(--zk-accent1), var(--zk-accent2))",
           color: "oklch(0.14 0.02 205)",
@@ -38,25 +38,25 @@ export function FounderSlideshow({
   }
 
   return (
-    <div className="mb-6">
+    <div className="relative h-full w-full">
+      {photos.map((src, i) => (
+        <Image
+          key={src}
+          src={src}
+          alt={name}
+          fill
+          sizes="(min-width: 768px) 50vw, 100vw"
+          priority={i === 0}
+          className="object-cover transition-opacity duration-700"
+          style={{ opacity: i === index ? 1 : 0 }}
+        />
+      ))}
       <div
-        className="relative h-[88px] w-[88px] overflow-hidden rounded-full border"
-        style={{ borderColor: "var(--zk-border)" }}
-      >
-        {photos.map((src, i) => (
-          <Image
-            key={src}
-            src={src}
-            alt={name}
-            fill
-            sizes="88px"
-            className="object-cover transition-opacity duration-700"
-            style={{ opacity: i === index ? 1 : 0 }}
-          />
-        ))}
-      </div>
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-20"
+        style={{ background: "linear-gradient(to top, oklch(0.13 0.02 205 / 0.75), transparent)" }}
+      />
       {photos.length > 1 && (
-        <div className="mt-2.5 flex gap-1.5">
+        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5">
           {photos.map((src, i) => (
             <button
               key={src}
@@ -65,7 +65,7 @@ export function FounderSlideshow({
               onClick={() => setIndex(i)}
               className="h-1.5 w-1.5 rounded-full"
               style={{
-                background: i === index ? "var(--zk-accent1)" : "var(--zk-border)",
+                background: i === index ? "var(--zk-accent1)" : "oklch(0.9 0 0 / 0.5)",
               }}
             />
           ))}
