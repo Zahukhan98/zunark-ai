@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:up": "docker compose up -d",
-    "db:down": "docker compose down",
+    "db:up": "echo Start MySQL manually for now - see README",
+    "db:down": "echo Stop MySQL manually for now - see README",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio"

@@ -2,7 +2,7 @@
 
 Public website + internal AI-assisted operations dashboard for zunark-ai.com.
 
-Stack: Next.js (App Router, TypeScript, Tailwind) · PostgreSQL + Prisma · Auth.js (Credentials) · Anthropic Claude API.
+Stack: Next.js (App Router, TypeScript, Tailwind) · MySQL + Prisma · Auth.js (Credentials) · Anthropic Claude API.
 
 ## Local setup
 
@@ -21,10 +21,18 @@ Stack: Next.js (App Router, TypeScript, Tailwind) · PostgreSQL + Prisma · Auth
    ```
    Set the three `SEED_*_PASSWORD` values to temporary passwords for the initial accounts.
 
-3. **Start local Postgres** (Docker Desktop must be running)
-   ```bash
-   npm run db:up
-   ```
+3. **Install and start MySQL** (no Docker required)
+   - Install MySQL Community Server 8.4 for Windows (`winget install -e --id Oracle.MySQL`, or the official installer).
+   - Create a database and app user matching `.env.local`:
+     ```sql
+     CREATE DATABASE zunark_ai CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+     CREATE USER 'zunark'@'localhost' IDENTIFIED BY 'zunark_dev_password';
+     GRANT ALL PRIVILEGES ON zunark_ai.* TO 'zunark'@'localhost';
+     ```
+   - If MySQL isn't registered as a Windows service on your machine, start it manually before `npm run dev`:
+     ```powershell
+     & "C:\Program Files\MySQL\MySQL Server 8.4\bin\mysqld.exe" --datadir="<your data dir>" --port=3306
+     ```
 
 4. **Apply the schema and seed initial users**
    ```bash
@@ -46,7 +54,6 @@ Stack: Next.js (App Router, TypeScript, Tailwind) · PostgreSQL + Prisma · Auth
 ## Other commands
 
 - `npm run db:studio` — browse the database with Prisma Studio
-- `npm run db:down` — stop the local Postgres container
 
 ## Project structure
 
