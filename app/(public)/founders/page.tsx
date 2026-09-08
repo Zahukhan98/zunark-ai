@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { FOUNDERS } from "@/lib/content";
+import { FounderSlideshow } from "@/components/public/FounderSlideshow";
 
 export const metadata: Metadata = {
   title: "Founders — zunark-ai",
@@ -29,26 +29,7 @@ export default function FoundersPage() {
             className="rounded-2xl border p-8"
             style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}
           >
-            {founder.photo ? (
-              <Image
-                src={founder.photo}
-                alt={founder.name}
-                width={88}
-                height={88}
-                className="mb-6 rounded-full object-cover"
-              />
-            ) : (
-              <div
-                className="mb-6 flex h-[88px] w-[88px] items-center justify-center rounded-full text-2xl font-semibold"
-                style={{
-                  background: "linear-gradient(135deg, var(--zk-accent1), var(--zk-accent2))",
-                  color: "oklch(0.14 0.02 205)",
-                  fontFamily: "var(--font-display-fam)",
-                }}
-              >
-                {founder.initials}
-              </div>
-            )}
+            <FounderSlideshow photos={founder.photos} name={founder.name} initials={founder.initials} />
             <h2 className="mb-1 text-xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
               {founder.name}
             </h2>

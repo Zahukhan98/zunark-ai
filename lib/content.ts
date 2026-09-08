@@ -84,7 +84,7 @@ export const FOUNDERS = [
     name: "Mohammed Zahid Khan",
     role: "Founder & CEO",
     initials: "ZK",
-    photo: undefined as string | undefined,
+    photos: [] as string[],
     bio: "Mohammed Zahid Khan is responsible for the overall vision, technology direction, product strategy and growth of zunark-ai. He has hands-on experience working on websites, AI tools and software-related projects while working with an international German technology company.",
     focus: ["Technology", "Product Vision", "AI", "Software Development", "Architecture"],
   },
@@ -93,11 +93,15 @@ export const FOUNDERS = [
     name: "Mohammed Kamar",
     role: "Co-Founder & Managing Director",
     initials: "MK",
-    photo: undefined as string | undefined,
+    photos: [] as string[],
     bio: "Mohammed Kamar is responsible for management, business operations, client relationships, administration and overall business execution at zunark-ai.",
     focus: ["Business Operations", "Management", "Client Relationships", "Business Development"],
   },
 ];
+
+// Set once you share the number — shown in the site footer next to the email.
+export const CONTACT_PHONE: string | null = null;
+export const CONTACT_EMAIL = "info@zunark-ai.com";
 
 export const PROCESS_STEPS = [
   {

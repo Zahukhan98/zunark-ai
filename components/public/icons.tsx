@@ -72,6 +72,23 @@ export function MaintenanceIcon({ className }: IconProps) {
   );
 }
 
+export function MailIcon({ className }: IconProps) {
+  return (
+    <svg {...base} width={16} height={16} className={className}>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="M3 6.5l9 6.5 9-6.5" />
+    </svg>
+  );
+}
+
+export function PhoneIcon({ className }: IconProps) {
+  return (
+    <svg {...base} width={16} height={16} className={className}>
+      <path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 5 5l1.5-2 4 1.5v3a2 2 0 0 1-2 2C10.5 18.5 5.5 13.5 4.5 6.5A2 2 0 0 1 6.5 3.5z" />
+    </svg>
+  );
+}
+
 export const SERVICE_ICONS = {
   web: WebDevIcon,
   software: CustomSoftwareIcon,
