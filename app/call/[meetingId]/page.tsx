@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { canAccessMeeting, ensureStarted } from "@/lib/meetings";
 import { prisma } from "@/lib/db";
-import { VideoCallRoom } from "@/components/dashboard/VideoCallRoom";
+import { JitsiCallRoom } from "@/components/dashboard/JitsiCallRoom";
 
 export default async function CallPage({
   params,
@@ -24,9 +24,10 @@ export default async function CallPage({
   await ensureStarted(meetingId);
 
   return (
-    <VideoCallRoom
+    <JitsiCallRoom
       meetingId={meetingId}
       meetingTitle={meeting.title}
+      displayName={session.user.name ?? "ZUNARK team member"}
       backHref={`/dashboard/meetings/${meetingId}`}
     />
   );
