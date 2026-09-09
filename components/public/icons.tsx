@@ -154,6 +154,27 @@ export function CheckIcon({ className }: IconProps) {
   );
 }
 
+export function InvoiceIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3z" />
+      <line x1="9" y1="8" x2="15" y2="8" />
+      <line x1="9" y1="12" x2="15" y2="12" />
+    </svg>
+  );
+}
+
+export function DocumentIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M6 3h8l4 4v14H6V3z" />
+      <path d="M14 3v4h4" />
+      <line x1="9" y1="13" x2="15" y2="13" />
+      <line x1="9" y1="17" x2="15" y2="17" />
+    </svg>
+  );
+}
+
 export const SERVICE_ICONS = {
   web: WebDevIcon,
   software: CustomSoftwareIcon,
