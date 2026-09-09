@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
 import { redirect } from "next/navigation";
-import type { Role, SignedBy } from "@prisma/client";
+import type { Role, SignedBy, LetterType } from "@prisma/client";
 import { FOUNDERS } from "@/lib/content";
 
 async function createLetter(formData: FormData) {
@@ -19,6 +19,8 @@ async function createLetter(formData: FormData) {
   const body = String(formData.get("body") || "").trim();
   const signedBy = String(formData.get("signedBy") || "ZAHID") as SignedBy;
   const letterDateRaw = String(formData.get("letterDate") || "");
+  const type = String(formData.get("type") || "GENERAL") as LetterType;
+  const projectId = String(formData.get("projectId") || "").trim();
 
   if (!subject || !body || !["ZAHID", "KAMAR"].includes(signedBy)) {
     throw new Error("A subject and body are required");
@@ -31,6 +33,8 @@ async function createLetter(formData: FormData) {
       recipientAddress: recipientAddress || null,
       body,
       signedBy,
+      type: type === "CONTRACT" ? "CONTRACT" : "GENERAL",
+      projectId: projectId || null,
       letterDate: letterDateRaw ? new Date(letterDateRaw) : new Date(),
       createdById: session.user.id,
     },
@@ -50,28 +54,60 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-export default async function NewLetterPage() {
+const CONTRACT_TEMPLATE = `Dear [Client Name],
+
+This letter confirms our agreement to provide [scope of work] for [Company Name], as discussed.
+
+Scope of Work:
+- [ ]
+
+Timeline:
+- [ ]
+
+Payment Terms:
+- [ ]
+
+Please sign and return a copy of this letter to confirm your acceptance of these terms.`;
+
+export default async function NewLetterPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ projectId?: string; type?: string; subject?: string; recipientName?: string }>;
+}) {
   const session = await auth();
   if (!session?.user || !hasPermission(session.user.role as Role, "MANAGE_LETTERS")) {
     redirect("/dashboard");
   }
 
+  const params = await searchParams;
+  const isContract = params.type === "CONTRACT";
   const today = new Date().toISOString().slice(0, 10);
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>New Letter</h1>
+      <h1 className="mb-1 text-2xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
+        {isContract ? "New Contract Letter" : "New Letter"}
+      </h1>
+      {isContract && (
+        <p className="mb-6 text-sm" style={{ color: "var(--zk-fg-muted)" }}>
+          Fill in your actual terms below before sending — the body starts with a bracketed skeleton, not pre-filled legal language.
+        </p>
+      )}
+      {!isContract && <div className="mb-6" />}
 
       <form action={createLetter} className="flex max-w-2xl flex-col gap-4">
+        <input type="hidden" name="type" value={isContract ? "CONTRACT" : "GENERAL"} />
+        {params.projectId && <input type="hidden" name="projectId" value={params.projectId} />}
+
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field label="Subject *">
-            <input name="subject" required className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
+            <input name="subject" required defaultValue={params.subject || ""} className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
           </Field>
           <Field label="Date">
             <input name="letterDate" type="date" defaultValue={today} className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
           </Field>
           <Field label="Recipient name (optional)">
-            <input name="recipientName" className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
+            <input name="recipientName" defaultValue={params.recipientName || ""} className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
           </Field>
           <Field label="Signed by">
             <select name="signedBy" required defaultValue="ZAHID" className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle}>
@@ -86,7 +122,15 @@ export default async function NewLetterPage() {
         </Field>
 
         <Field label="Letter body *">
-          <textarea name="body" required rows={12} placeholder="Dear [Name],&#10;&#10;..." className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
+          <textarea
+            name="body"
+            required
+            rows={14}
+            defaultValue={isContract ? CONTRACT_TEMPLATE : ""}
+            placeholder="Dear [Name],&#10;&#10;..."
+            className="rounded-lg border px-3 py-2.5 text-sm outline-none"
+            style={inputStyle}
+          />
         </Field>
 
         <button
@@ -94,7 +138,7 @@ export default async function NewLetterPage() {
           className="w-fit rounded-full px-6 py-3 text-sm font-semibold"
           style={{ background: "var(--zk-accent1)", color: "oklch(1 0 0)" }}
         >
-          Create Letter
+          {isContract ? "Create Contract Letter" : "Create Letter"}
         </button>
       </form>
     </div>

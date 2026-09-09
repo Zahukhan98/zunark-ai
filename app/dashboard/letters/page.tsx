@@ -43,7 +43,14 @@ export default async function LettersPage() {
               style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel)" }}
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <h2 className="font-bold">{letter.subject}</h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="font-bold">{letter.subject}</h2>
+                  {letter.type === "CONTRACT" && (
+                    <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide" style={{ background: "var(--zk-accent2)", color: "oklch(1 0 0)" }}>
+                      Contract
+                    </span>
+                  )}
+                </div>
                 <span className="text-xs" style={{ color: "var(--zk-fg-muted)" }}>{letter.letterDate.toLocaleDateString()}</span>
               </div>
               <p className="mt-1 text-xs" style={{ color: "var(--zk-fg-muted)" }}>

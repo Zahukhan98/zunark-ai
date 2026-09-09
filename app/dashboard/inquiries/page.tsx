@@ -1,9 +1,11 @@
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import type { Role, InquiryStatus } from "@prisma/client";
+import { sendInquiryReviewedEmail, sendProjectAcceptedEmail } from "@/lib/mail";
 
 const STATUSES: InquiryStatus[] = ["NEW", "REVIEWED", "CONVERTED", "DECLINED"];
 
@@ -15,10 +17,75 @@ async function updateStatus(formData: FormData) {
   }
   const id = String(formData.get("id"));
   const status = String(formData.get("status")) as InquiryStatus;
+  const sendEmail = formData.get("sendEmail") === "1";
   if (!STATUSES.includes(status)) throw new Error("Invalid status");
 
-  await prisma.inquiry.update({ where: { id }, data: { status } });
+  const inquiry = await prisma.inquiry.update({ where: { id }, data: { status } });
+
+  if (sendEmail && status === "REVIEWED") {
+    await sendInquiryReviewedEmail({ name: inquiry.name, email: inquiry.email });
+  }
+
   revalidatePath("/dashboard/inquiries");
+}
+
+async function acceptInquiry(formData: FormData) {
+  "use server";
+  const session = await auth();
+  if (
+    !session?.user ||
+    !hasPermission(session.user.role as Role, "VIEW_INQUIRIES") ||
+    !hasPermission(session.user.role as Role, "MANAGE_PROJECTS")
+  ) {
+    throw new Error("Not authorized");
+  }
+
+  const id = String(formData.get("id"));
+  const sendEmail = formData.get("sendEmail") === "1";
+  const inquiry = await prisma.inquiry.findUnique({ where: { id } });
+  if (!inquiry) throw new Error("Inquiry not found");
+  if (inquiry.status === "CONVERTED") throw new Error("This inquiry has already been converted");
+
+  const noteLines: string[] = [];
+  if (inquiry.budget) noteLines.push(`Budget (from inquiry): ${inquiry.budget}`);
+  if (inquiry.additionalRequirements) noteLines.push(`Additional requirements: ${inquiry.additionalRequirements}`);
+
+  const project = await prisma.$transaction(async (tx) => {
+    const client = await tx.client.create({
+      data: {
+        name: inquiry.name,
+        company: inquiry.company,
+        email: inquiry.email,
+        phone: inquiry.phone,
+        country: inquiry.country,
+        industry: inquiry.industry,
+        notes: noteLines.length ? noteLines.join("\n") : null,
+      },
+    });
+
+    const proj = await tx.project.create({
+      data: {
+        clientId: client.id,
+        name: `${inquiry.company || inquiry.name} — ${inquiry.projectType}`,
+        type: inquiry.projectType,
+        description: inquiry.description,
+        timeline: inquiry.timeline,
+        status: "NEW",
+      },
+    });
+
+    await tx.inquiry.update({ where: { id }, data: { status: "CONVERTED" } });
+    return proj;
+  });
+
+  if (sendEmail) {
+    await sendProjectAcceptedEmail({ name: inquiry.name, email: inquiry.email, projectName: project.name });
+  }
+
+  revalidatePath("/dashboard/inquiries");
+  revalidatePath("/dashboard/clients");
+  revalidatePath("/dashboard/projects");
+  redirect(`/dashboard/projects/${project.id}`);
 }
 
 function statusStyle(status: InquiryStatus): React.CSSProperties {
@@ -39,6 +106,7 @@ export default async function InquiriesPage() {
   if (!session?.user || !hasPermission(session.user.role as Role, "VIEW_INQUIRIES")) {
     redirect("/dashboard");
   }
+  const canManageProjects = hasPermission(session.user.role as Role, "MANAGE_PROJECTS");
 
   const inquiries = await prisma.inquiry.findMany({ orderBy: { createdAt: "desc" } });
 
@@ -67,28 +135,50 @@ export default async function InquiriesPage() {
                     <span>{new Date(inq.createdAt).toLocaleString()}</span>
                   </div>
                 </div>
-                <form action={updateStatus} className="flex items-center gap-2">
-                  <input type="hidden" name="id" value={inq.id} />
-                  <select
-                    name="status"
-                    defaultValue={inq.status}
-                    className="rounded-full border px-3 py-1 text-xs font-semibold"
-                    style={statusStyle(inq.status)}
-                  >
-                    {STATUSES.map((s) => (
-                      <option key={s} value={s} style={{ background: "var(--zk-panel)", color: "var(--zk-fg)" }}>
-                        {s}
-                      </option>
-                    ))}
-                  </select>
-                  <button
-                    type="submit"
-                    className="rounded-full border px-3 py-1 text-xs font-medium"
-                    style={{ borderColor: "var(--zk-border)", color: "var(--zk-fg-muted)" }}
-                  >
-                    Update
-                  </button>
-                </form>
+                <div className="flex flex-wrap items-center gap-2">
+                  <form action={updateStatus} className="flex items-center gap-2">
+                    <input type="hidden" name="id" value={inq.id} />
+                    <select
+                      name="status"
+                      defaultValue={inq.status}
+                      className="rounded-full border px-3 py-1 text-xs font-semibold"
+                      style={statusStyle(inq.status)}
+                    >
+                      {STATUSES.map((s) => (
+                        <option key={s} value={s} style={{ background: "var(--zk-panel)", color: "var(--zk-fg)" }}>
+                          {s}
+                        </option>
+                      ))}
+                    </select>
+                    <label className="flex items-center gap-1.5 text-[11px]" style={{ color: "var(--zk-fg-muted)" }}>
+                      <input type="checkbox" name="sendEmail" value="1" defaultChecked />
+                      Email inquirer
+                    </label>
+                    <button
+                      type="submit"
+                      className="rounded-full border px-3 py-1 text-xs font-medium"
+                      style={{ borderColor: "var(--zk-border)", color: "var(--zk-fg-muted)" }}
+                    >
+                      Update
+                    </button>
+                  </form>
+                  {canManageProjects && inq.status !== "CONVERTED" && (
+                    <form action={acceptInquiry} className="flex items-center gap-2">
+                      <input type="hidden" name="id" value={inq.id} />
+                      <label className="flex items-center gap-1.5 text-[11px]" style={{ color: "var(--zk-fg-muted)" }}>
+                        <input type="checkbox" name="sendEmail" value="1" defaultChecked />
+                        Email client
+                      </label>
+                      <button
+                        type="submit"
+                        className="rounded-full px-3 py-1 text-xs font-semibold"
+                        style={{ background: "var(--zk-accent1)", color: "oklch(1 0 0)" }}
+                      >
+                        Accept &amp; Create Project
+                      </button>
+                    </form>
+                  )}
+                </div>
               </div>
 
               <div className="mb-3 flex flex-wrap gap-2 text-xs">
@@ -104,6 +194,12 @@ export default async function InquiriesPage() {
                 <p className="mt-2 whitespace-pre-wrap text-sm" style={{ color: "var(--zk-fg-muted)" }}>
                   <span style={{ color: "var(--zk-fg)" }}>Additional: </span>
                   {inq.additionalRequirements}
+                </p>
+              )}
+
+              {inq.status === "CONVERTED" && (
+                <p className="mt-3 text-xs" style={{ color: "var(--zk-fg-muted)" }}>
+                  Converted to a client + project. <Link href="/dashboard/projects" className="zk-link" style={{ color: "var(--zk-accent1)" }}>View projects →</Link>
                 </p>
               )}
             </div>

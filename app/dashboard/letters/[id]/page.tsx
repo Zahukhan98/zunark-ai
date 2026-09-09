@@ -28,16 +28,31 @@ export default async function LetterDetailPage({ params }: { params: Promise<{ i
     redirect("/dashboard");
   }
 
-  const letter = await prisma.letter.findUnique({ where: { id } });
+  const letter = await prisma.letter.findUnique({ where: { id }, include: { project: true } });
   if (!letter) notFound();
 
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>{letter.subject}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>{letter.subject}</h1>
+            {letter.type === "CONTRACT" && (
+              <span className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide" style={{ background: "var(--zk-accent2)", color: "oklch(1 0 0)" }}>
+                Contract
+              </span>
+            )}
+          </div>
           <p className="text-sm" style={{ color: "var(--zk-fg-muted)" }}>
             {letter.letterDate.toLocaleDateString()} · Signed by {signerName(letter.signedBy)}
+            {letter.project && (
+              <>
+                {" · "}
+                <Link href={`/dashboard/projects/${letter.project.id}`} className="zk-link" style={{ color: "var(--zk-accent1)" }}>
+                  {letter.project.name}
+                </Link>
+              </>
+            )}
           </p>
         </div>
         <div className="flex items-center gap-3">

@@ -5,6 +5,8 @@ import { SERVICE_ICONS } from "@/components/public/icons";
 import { INDUSTRIES } from "@/lib/industries";
 import { CASE_STUDIES } from "@/lib/work";
 import { CTASection } from "@/components/public/CTASection";
+import { Reveal } from "@/components/public/Reveal";
+import { Typewriter } from "@/components/public/Typewriter";
 import { absoluteUrl } from "@/lib/seo";
 import type { Metadata } from "next";
 
@@ -85,7 +87,7 @@ export default function Home() {
               className="mb-8 text-xs font-semibold uppercase tracking-wider"
               style={{ fontFamily: "var(--font-mono-fam)", color: "oklch(0.82 0.01 255)" }}
             >
-              {CAPABILITIES.join(" • ")}
+              <Typewriter text={CAPABILITIES.join(" • ")} />
             </div>
             <div className="flex flex-wrap gap-4">
               <Link href="/contact" className="rounded-full px-6 py-3.5 text-sm font-semibold" style={{ background: "oklch(1 0 0)", color: "var(--zk-accent1)" }}>
@@ -128,28 +130,29 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((service) => {
+          {SERVICES.map((service, index) => {
             const Icon = SERVICE_ICONS[service.icon];
             return (
-              <Link
-                key={service.slug}
-                href={`/services/${service.slug}`}
-                className="zk-link overflow-hidden rounded-2xl border"
-                style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel)" }}
-              >
-                {service.previewImage && (
-                  <div className="relative aspect-[3/2] w-full" style={{ background: "var(--zk-panel-soft)" }}>
-                    <Image src={service.previewImage} alt={`${service.navTitle} illustration`} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />
+              <Reveal key={service.slug} direction={index % 2 === 0 ? "left" : "right"} delay={(index % 3) * 80}>
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="zk-link block overflow-hidden rounded-2xl border"
+                  style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel)" }}
+                >
+                  {service.previewImage && (
+                    <div className="relative aspect-[3/2] w-full" style={{ background: "var(--zk-panel-soft)" }}>
+                      <Image src={service.previewImage} alt={`${service.navTitle} illustration`} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />
+                    </div>
+                  )}
+                  <div className="p-7">
+                    <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-[10px]" style={{ background: "var(--zk-panel-soft)", color: "var(--zk-accent1)" }}>
+                      <Icon />
+                    </div>
+                    <h3 className="mb-2 text-lg font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>{service.navTitle}</h3>
+                    <p className="text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>{service.short}</p>
                   </div>
-                )}
-                <div className="p-7">
-                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-[10px]" style={{ background: "var(--zk-panel-soft)", color: "var(--zk-accent1)" }}>
-                    <Icon />
-                  </div>
-                  <h3 className="mb-2 text-lg font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>{service.navTitle}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>{service.short}</p>
-                </div>
-              </Link>
+                </Link>
+              </Reveal>
             );
           })}
         </div>
@@ -161,16 +164,17 @@ export default function Home() {
           <h2 className="text-3xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>Sound familiar?</h2>
         </div>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-          {PROBLEMS_WE_SOLVE.map((p) => (
-            <Link
-              key={p.problem}
-              href={`/services/${p.service}`}
-              className="zk-link rounded-2xl border p-7"
-              style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}
-            >
-              <p className="mb-3 font-semibold leading-snug">&ldquo;{p.problem}&rdquo;</p>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>→ {p.solution}</p>
-            </Link>
+          {PROBLEMS_WE_SOLVE.map((p, index) => (
+            <Reveal key={p.problem} direction="up" delay={index * 70}>
+              <Link
+                href={`/services/${p.service}`}
+                className="zk-link block rounded-2xl border p-7"
+                style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}
+              >
+                <p className="mb-3 font-semibold leading-snug">&ldquo;{p.problem}&rdquo;</p>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>→ {p.solution}</p>
+              </Link>
+            </Reveal>
           ))}
         </div>
         <div className="mt-8">
@@ -194,32 +198,33 @@ export default function Home() {
           </Link>
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {CASE_STUDIES.slice(0, 3).map((cs) => (
-            <Link
-              key={cs.slug}
-              href={`/work/${cs.slug}`}
-              className="zk-link overflow-hidden rounded-2xl border"
-              style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}
-            >
-              {cs.screenshots && cs.screenshots.length > 0 && (
-                <div className="relative aspect-[16/10] w-full">
-                  <Image src={cs.screenshots[0].src} alt={cs.screenshots[0].caption} fill sizes="33vw" className="object-cover object-top" />
+          {CASE_STUDIES.slice(0, 3).map((cs, index) => (
+            <Reveal key={cs.slug} direction="up" delay={index * 80}>
+              <Link
+                href={`/work/${cs.slug}`}
+                className="zk-link block overflow-hidden rounded-2xl border"
+                style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}
+              >
+                {cs.screenshots && cs.screenshots.length > 0 && (
+                  <div className="relative aspect-[16/10] w-full">
+                    <Image src={cs.screenshots[0].src} alt={cs.screenshots[0].caption} fill sizes="33vw" className="object-cover object-top" />
+                  </div>
+                )}
+                <div className="p-6">
+                  <span
+                    className="mb-3 inline-block rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide"
+                    style={{
+                      background: cs.status === "delivered" ? "var(--zk-panel)" : "var(--zk-accent2)",
+                      color: cs.status === "delivered" ? "var(--zk-fg-muted)" : "oklch(1 0 0)",
+                      border: cs.status === "delivered" ? "1px solid var(--zk-border)" : "none",
+                    }}
+                  >
+                    {cs.status === "delivered" ? "Delivered" : "In Development"}
+                  </span>
+                  <h3 className="text-base font-bold leading-snug" style={{ fontFamily: "var(--font-display-fam)" }}>{cs.name}</h3>
                 </div>
-              )}
-              <div className="p-6">
-                <span
-                  className="mb-3 inline-block rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide"
-                  style={{
-                    background: cs.status === "delivered" ? "var(--zk-panel)" : "var(--zk-accent2)",
-                    color: cs.status === "delivered" ? "var(--zk-fg-muted)" : "oklch(1 0 0)",
-                    border: cs.status === "delivered" ? "1px solid var(--zk-border)" : "none",
-                  }}
-                >
-                  {cs.status === "delivered" ? "Delivered" : "In Development"}
-                </span>
-                <h3 className="text-base font-bold leading-snug" style={{ fontFamily: "var(--font-display-fam)" }}>{cs.name}</h3>
-              </div>
-            </Link>
+              </Link>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -235,16 +240,17 @@ export default function Home() {
           </Link>
         </div>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {INDUSTRIES.map((ind) => (
-            <Link
-              key={ind.slug}
-              href={`/industries/${ind.slug}`}
-              className="zk-link rounded-2xl border p-6"
-              style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}
-            >
-              <h3 className="mb-2 text-base font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>{ind.title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>{ind.short}</p>
-            </Link>
+          {INDUSTRIES.map((ind, index) => (
+            <Reveal key={ind.slug} direction="up" delay={index * 60}>
+              <Link
+                href={`/industries/${ind.slug}`}
+                className="zk-link block rounded-2xl border p-6"
+                style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}
+              >
+                <h3 className="mb-2 text-base font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>{ind.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>{ind.short}</p>
+              </Link>
+            </Reveal>
           ))}
         </div>
       </section>

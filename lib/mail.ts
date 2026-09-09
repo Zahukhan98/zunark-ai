@@ -113,6 +113,68 @@ export async function sendInquiryConfirmation(data: { name: string; email: strin
   }
 }
 
+export async function sendInquiryReviewedEmail(data: { name: string; email: string }) {
+  const transport = getTransport();
+  if (!transport) {
+    console.warn("SMTP not configured — skipping reviewed email.");
+    return;
+  }
+
+  const from = process.env.SMTP_USER;
+  const firstName = data.name.trim().split(/\s+/)[0] || data.name;
+
+  const html = `
+    <div style="font-family:sans-serif;font-size:15px;color:#222;line-height:1.6;">
+      <p>Hi ${escapeHtml(firstName)},</p>
+      <p>Thanks for your patience — we've reviewed your enquiry and would like to connect with you to discuss it further before moving ahead.</p>
+      <p>We'll be in touch shortly to arrange a conversation. If you'd like to reach us in the meantime, just reply to this email or contact us at info@zunark-ai.com.</p>
+      <p>Best regards,<br>The ZUNARK Team</p>
+    </div>
+  `;
+
+  try {
+    await transport.sendMail({
+      from: `"ZUNARK" <${from}>`,
+      to: data.email,
+      subject: "Your enquiry has been reviewed — ZUNARK",
+      html,
+    });
+  } catch (err) {
+    console.error("Failed to send inquiry reviewed email:", err);
+  }
+}
+
+export async function sendProjectAcceptedEmail(data: { name: string; email: string; projectName: string }) {
+  const transport = getTransport();
+  if (!transport) {
+    console.warn("SMTP not configured — skipping project accepted email.");
+    return;
+  }
+
+  const from = process.env.SMTP_USER;
+  const firstName = data.name.trim().split(/\s+/)[0] || data.name;
+
+  const html = `
+    <div style="font-family:sans-serif;font-size:15px;color:#222;line-height:1.6;">
+      <p>Hi ${escapeHtml(firstName)},</p>
+      <p>Good news — we've accepted your project (${escapeHtml(data.projectName)}) and are moving ahead. Our team will be in touch shortly with next steps, including a service agreement.</p>
+      <p>If you have any questions in the meantime, just reply to this email or reach us at info@zunark-ai.com.</p>
+      <p>Best regards,<br>The ZUNARK Team</p>
+    </div>
+  `;
+
+  try {
+    await transport.sendMail({
+      from: `"ZUNARK" <${from}>`,
+      to: data.email,
+      subject: "Your project has been accepted — ZUNARK",
+      html,
+    });
+  } catch (err) {
+    console.error("Failed to send project accepted email:", err);
+  }
+}
+
 function escapeHtml(s: string) {
   return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
 }
