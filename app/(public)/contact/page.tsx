@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { sendInquiryNotification } from "@/lib/mail";
 import { Breadcrumbs } from "@/components/public/Breadcrumbs";
 import { absoluteUrl } from "@/lib/seo";
 
@@ -71,6 +72,8 @@ async function submitInquiry(formData: FormData) {
       additionalRequirements: data.additionalRequirements || null,
     },
   });
+
+  await sendInquiryNotification(data);
 
   redirect("/contact?submitted=1");
 }

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Overview" },
+  { href: "/dashboard/inquiries", label: "Inquiries", roles: ["SUPER_ADMIN", "ADMIN"] },
   { href: "/dashboard/clients", label: "Clients" },
   { href: "/dashboard/projects", label: "Projects" },
   { href: "/dashboard/users", label: "Users", roles: ["SUPER_ADMIN"] },
