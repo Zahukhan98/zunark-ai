@@ -12,6 +12,7 @@ declare global {
 type JitsiApi = {
   dispose: () => void;
   addEventListener: (event: string, handler: (...args: unknown[]) => void) => void;
+  getIFrame: () => HTMLIFrameElement;
 };
 
 const JITSI_DOMAIN = "meet.jit.si";
@@ -49,6 +50,14 @@ export function JitsiCallRoom({
       });
       apiRef.current = api;
       setStatus("ready");
+
+      // The Jitsi IFrame API doesn't reliably honor percentage width/height
+      // options — it can leave the iframe at a small intrinsic size instead
+      // of filling its container. Force it to fill directly.
+      const iframe = api.getIFrame();
+      if (iframe) {
+        iframe.style.cssText = "position:absolute; inset:0; width:100%; height:100%; border:0;";
+      }
 
       api.addEventListener("readyToClose", () => setStatus("ended"));
       api.addEventListener("videoConferenceLeft", () => setStatus("ended"));
