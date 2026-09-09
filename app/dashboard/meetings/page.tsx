@@ -93,9 +93,15 @@ export default async function MeetingsPage() {
   return (
     <div>
       <h1 className="mb-1 text-2xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>Meetings</h1>
-      <p className="mb-7 text-sm" style={{ color: "var(--zk-fg-muted)" }}>
-        Start an instant video call, or schedule one and invite teammates by email.
+      <p className="mb-4 text-sm" style={{ color: "var(--zk-fg-muted)" }}>
+        Start an instant meeting, or schedule one and invite teammates by email.
       </p>
+      <div
+        className="mb-7 rounded-xl border px-4 py-3 text-sm"
+        style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)", color: "var(--zk-fg-muted)" }}
+      >
+        🎥 Live video calling is coming soon — for now this schedules the meeting and sends invites; the call itself will be added in a future update.
+      </div>
 
       <div className="mb-10 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="rounded-2xl border p-6" style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel)" }}>

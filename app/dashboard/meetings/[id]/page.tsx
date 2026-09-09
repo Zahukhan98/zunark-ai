@@ -61,13 +61,18 @@ export default async function MeetingDetailPage({ params }: { params: Promise<{ 
         </p>
 
         {canJoin && meeting.status !== "ENDED" && meeting.status !== "CANCELLED" ? (
-          <Link
-            href={`/call/${meeting.id}`}
-            className="zk-link inline-block rounded-lg px-5 py-2.5 text-sm font-semibold"
-            style={{ background: "var(--zk-accent1)", color: "oklch(1 0 0)" }}
-          >
-            Join meeting
-          </Link>
+          <>
+            <Link
+              href={`/call/${meeting.id}`}
+              className="zk-link inline-block rounded-lg px-5 py-2.5 text-sm font-semibold"
+              style={{ background: "var(--zk-accent1)", color: "oklch(1 0 0)" }}
+            >
+              Join meeting
+            </Link>
+            <p className="mt-2 text-xs" style={{ color: "var(--zk-fg-muted)" }}>
+              🎥 Live video calling is coming soon — this currently opens a placeholder.
+            </p>
+          </>
         ) : meeting.status === "SCHEDULED" && meeting.scheduledAt ? (
           <p className="text-sm" style={{ color: "var(--zk-fg-muted)" }}>
             The Join button will appear once this meeting starts.
