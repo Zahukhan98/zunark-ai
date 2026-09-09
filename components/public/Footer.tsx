@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { MailIcon, PhoneIcon } from "@/components/public/icons";
-import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/content";
+import { MailIcon, PhoneIcon, WhatsAppIcon } from "@/components/public/icons";
+import { CONTACT_EMAIL, CONTACT_PHONE, WHATSAPP_NUMBER, WHATSAPP_DISPLAY } from "@/lib/content";
 
 const COLUMNS: { title: string; links: { href: string; label: string }[] }[] = [
   {
@@ -75,7 +75,17 @@ export function PublicFooter() {
           <Link href="/privacy" className="zk-link">Privacy Policy</Link>
           <Link href="/terms" className="zk-link">Terms</Link>
         </div>
-        <div className="flex items-center gap-5">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="zk-link flex items-center gap-2"
+            style={{ fontFamily: "var(--font-mono-fam)", color: "var(--zk-fg)" }}
+          >
+            <WhatsAppIcon />
+            {WHATSAPP_DISPLAY}
+          </a>
           {CONTACT_PHONE && (
             <a
               href={`tel:${CONTACT_PHONE.replace(/[^+\d]/g, "")}`}

@@ -21,6 +21,8 @@ export const FOUNDERS = [
 
 export const CONTACT_PHONE: string | null = "+91 79935 76880";
 export const CONTACT_EMAIL = "info@zunark-ai.com";
+export const WHATSAPP_NUMBER = "919346219198"; // company WhatsApp — digits only, for wa.me links
+export const WHATSAPP_DISPLAY = "+91 93462 19198";
 
 export const PROCESS_STEPS = [
   {

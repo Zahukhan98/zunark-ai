@@ -81,6 +81,38 @@ export async function sendInquiryNotification(data: {
   }
 }
 
+export async function sendInquiryConfirmation(data: { name: string; email: string }) {
+  const transport = getTransport();
+  if (!transport) {
+    console.warn("SMTP not configured — skipping inquiry confirmation email.");
+    return;
+  }
+
+  const from = process.env.SMTP_USER;
+  const firstName = data.name.trim().split(/\s+/)[0] || data.name;
+
+  const html = `
+    <div style="font-family:sans-serif;font-size:15px;color:#222;line-height:1.6;">
+      <p>Hi ${escapeHtml(firstName)},</p>
+      <p>Thank you for reaching out to ZUNARK. We've received your project enquiry and it's currently under review by our team — we'll get back to you shortly.</p>
+      <p>In the meantime, feel free to take a look at our <a href="https://www.zunark-ai.com/work">work</a> and <a href="https://www.zunark-ai.com/services">services</a>.</p>
+      <p>Best regards,<br>The ZUNARK Team</p>
+      <p style="margin-top:24px;color:#888;font-size:12px;">This is an automated confirmation — there's no need to reply to this email. If you have anything to add, you can reach us at info@zunark-ai.com.</p>
+    </div>
+  `;
+
+  try {
+    await transport.sendMail({
+      from: `"ZUNARK" <${from}>`,
+      to: data.email,
+      subject: "We've received your enquiry — ZUNARK",
+      html,
+    });
+  } catch (err) {
+    console.error("Failed to send inquiry confirmation email:", err);
+  }
+}
+
 function escapeHtml(s: string) {
   return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
 }

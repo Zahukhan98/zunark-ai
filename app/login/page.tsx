@@ -26,20 +26,22 @@ export default async function LoginPage({
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center bg-zinc-950 px-4">
-      <div className="w-full max-w-sm rounded-xl border border-zinc-800 bg-zinc-900 p-8">
-        <h1 className="mb-1 text-xl font-semibold text-zinc-50">zunark-ai</h1>
-        <p className="mb-6 text-sm text-zinc-400">Internal platform sign in</p>
+    <div className="zk flex flex-1 items-center justify-center px-4">
+      <div className="w-full max-w-sm rounded-2xl border p-8" style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel)" }}>
+        <h1 className="mb-1 text-xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
+          zunark<span style={{ color: "var(--zk-accent1)" }}>-ai</span>
+        </h1>
+        <p className="mb-6 text-sm" style={{ color: "var(--zk-fg-muted)" }}>Internal platform sign in</p>
 
         {params.error && (
-          <p className="mb-4 rounded-md bg-red-950 px-3 py-2 text-sm text-red-400">
+          <p className="mb-4 rounded-lg border px-3 py-2 text-sm" style={{ borderColor: "var(--zk-accent2)", color: "var(--zk-accent2)" }}>
             Invalid email or password.
           </p>
         )}
 
         <form action={authenticate} className="flex flex-col gap-4">
           <div>
-            <label className="mb-1 block text-sm text-zinc-300" htmlFor="email">
+            <label className="mb-1 block text-sm font-medium" htmlFor="email">
               Email
             </label>
             <input
@@ -47,11 +49,12 @@ export default async function LoginPage({
               name="email"
               type="email"
               required
-              className="w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-50 outline-none focus:border-zinc-500"
+              className="w-full rounded-lg border px-3 py-2.5 text-sm outline-none"
+              style={{ background: "var(--zk-panel-soft)", borderColor: "var(--zk-border)", color: "var(--zk-fg)" }}
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm text-zinc-300" htmlFor="password">
+            <label className="mb-1 block text-sm font-medium" htmlFor="password">
               Password
             </label>
             <input
@@ -59,12 +62,14 @@ export default async function LoginPage({
               name="password"
               type="password"
               required
-              className="w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-50 outline-none focus:border-zinc-500"
+              className="w-full rounded-lg border px-3 py-2.5 text-sm outline-none"
+              style={{ background: "var(--zk-panel-soft)", borderColor: "var(--zk-border)", color: "var(--zk-fg)" }}
             />
           </div>
           <button
             type="submit"
-            className="mt-2 rounded-md bg-zinc-50 px-3 py-2 text-sm font-medium text-zinc-950 hover:bg-zinc-200"
+            className="mt-2 rounded-lg px-3 py-2.5 text-sm font-semibold"
+            style={{ background: "var(--zk-accent1)", color: "oklch(1 0 0)" }}
           >
             Sign in
           </button>

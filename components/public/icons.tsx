@@ -89,6 +89,63 @@ export function PhoneIcon({ className }: IconProps) {
   );
 }
 
+export function GridIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <rect x="3" y="3" width="7" height="7" rx="1.5" />
+      <rect x="14" y="3" width="7" height="7" rx="1.5" />
+      <rect x="3" y="14" width="7" height="7" rx="1.5" />
+      <rect x="14" y="14" width="7" height="7" rx="1.5" />
+    </svg>
+  );
+}
+
+export function UsersIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <circle cx="9" cy="8" r="3" />
+      <path d="M3.5 20a5.5 5.5 0 0 1 11 0" />
+      <circle cx="17.5" cy="9" r="2.3" />
+      <path d="M15 20a4.8 4.8 0 0 1 6.5-4.5" />
+    </svg>
+  );
+}
+
+export function FolderIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M3 7a1.5 1.5 0 0 1 1.5-1.5h4l2 2.2H19.5A1.5 1.5 0 0 1 21 9.2V17a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17V7z" />
+    </svg>
+  );
+}
+
+export function PersonIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <circle cx="12" cy="8" r="3.3" />
+      <path d="M5 20a7 7 0 0 1 14 0" />
+    </svg>
+  );
+}
+
+export function ArrowRightIcon({ className }: IconProps) {
+  return (
+    <svg {...base} width={16} height={16} className={className}>
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <polyline points="14 6 20 12 14 18" />
+    </svg>
+  );
+}
+
+export function WhatsAppIcon({ className }: IconProps) {
+  return (
+    <svg {...base} width={16} height={16} className={className}>
+      <path d="M12 3a9 9 0 0 0-7.75 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z" />
+      <path d="M8.5 8.8c.2-.5.4-.5.6-.5h.5c.15 0 .35 0 .5.4.2.5.6 1.5.65 1.6.05.1.1.25 0 .4-.1.2-.15.3-.3.45l-.4.45c-.15.15-.3.3-.15.6.15.3.7 1.2 1.5 1.9 1 .9 1.85 1.2 2.15 1.35.3.15.5.1.65-.05.2-.2.4-.5.6-.75.15-.2.3-.2.5-.15.2.1 1.35.65 1.6.75.25.1.4.15.45.25.05.15.05.7-.2 1.35-.25.65-1.45 1.25-2 1.3-.5.05-1.1.08-1.75-.1a11 11 0 0 1-1-.35 8.6 8.6 0 0 1-3.2-2.25 9.4 9.4 0 0 1-1.9-3.2c-.2-.6-.3-1.15-.3-1.65 0-1.1.6-1.65.85-1.9z" />
+    </svg>
+  );
+}
+
 export const SERVICE_ICONS = {
   web: WebDevIcon,
   software: CustomSoftwareIcon,

@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
-import { sendInquiryNotification } from "@/lib/mail";
+import { sendInquiryNotification, sendInquiryConfirmation } from "@/lib/mail";
 import { Breadcrumbs } from "@/components/public/Breadcrumbs";
+import { WhatsAppIcon } from "@/components/public/icons";
+import { WHATSAPP_NUMBER, WHATSAPP_DISPLAY } from "@/lib/content";
 import { absoluteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -73,7 +75,7 @@ async function submitInquiry(formData: FormData) {
     },
   });
 
-  await sendInquiryNotification(data);
+  await Promise.all([sendInquiryNotification(data), sendInquiryConfirmation(data)]);
 
   redirect("/contact?submitted=1");
 }
@@ -113,8 +115,8 @@ export default async function ContactPage({
             We&apos;ve got your project details
           </h1>
           <p className="text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>
-            Mohammed Zahid Khan and Mohammed Kamar will review it and get back to you at
-            the email address you provided.
+            The ZUNARK team will review it and get back to you at the email address
+            you provided.
           </p>
         </div>
       </div>
@@ -138,6 +140,16 @@ export default async function ContactPage({
           </a>
           .
         </p>
+        <a
+          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi ZUNARK, I'd like to discuss a project.")}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="zk-link mt-5 inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-medium"
+          style={{ borderColor: "var(--zk-border)" }}
+        >
+          <WhatsAppIcon />
+          Prefer WhatsApp? Message us at {WHATSAPP_DISPLAY}
+        </a>
         {params.error && (
           <p className="mt-5 rounded-lg border px-4 py-3 text-sm" style={{ borderColor: "var(--zk-accent2)", color: "var(--zk-accent2)" }}>
             Please check the form — name, a valid email, project type and a description are required.
