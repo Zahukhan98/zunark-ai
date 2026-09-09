@@ -6,6 +6,9 @@ export type Service = {
   navTitle: string;
   title: string;
   short: string;
+  ctaLabel: string;
+  previewImage?: string;
+  highlights: string[];
   seoTitle: string;
   seoDescription: string;
   intro: string;
@@ -26,6 +29,9 @@ export const SERVICES: Service[] = [
     navTitle: "Web Development",
     title: "Web Development",
     short: "Corporate sites, landing pages and e-commerce built to convert and last.",
+    ctaLabel: "Build Your Website",
+    previewImage: "/services/web-development-preview.jpg",
+    highlights: ["Modern & responsive design", "Optimized for performance", "E-commerce solutions", "SEO-ready and scalable"],
     seoTitle: "Web Development Services | ZUNARK",
     seoDescription:
       "Custom websites, landing pages and e-commerce builds designed around how your business actually sells and operates — not a generic template.",
@@ -72,6 +78,9 @@ export const SERVICES: Service[] = [
     navTitle: "Custom Software",
     title: "Custom Software",
     short: "Dashboards, portals and business systems shaped around your workflow.",
+    ctaLabel: "Build Your System",
+    previewImage: "/services/custom-software-preview.jpg",
+    highlights: ["Built around your workflow", "Admin dashboards & portals", "Connects to your existing tools", "You own the codebase"],
     seoTitle: "Custom Software Development | ZUNARK",
     seoDescription:
       "Off-the-shelf software doesn't always fit how your business runs. We design custom dashboards, portals and internal systems around your actual workflow.",
@@ -118,6 +127,8 @@ export const SERVICES: Service[] = [
     navTitle: "AI Solutions",
     title: "AI Solutions",
     short: "AI assistants and automation that plug into how your team works.",
+    ctaLabel: "Explore AI Solutions",
+    highlights: ["Content & document automation", "Custom AI workflows", "Human review built in", "Connected to your real data"],
     seoTitle: "AI Solutions for Businesses | ZUNARK",
     seoDescription:
       "Practical AI tools — content generation, document processing and data pipelines — built to fit into your existing workflow, not bolted on as a gimmick.",
@@ -164,6 +175,8 @@ export const SERVICES: Service[] = [
     navTitle: "Data & Analytics",
     title: "Data & Analytics",
     short: "Dashboards and reporting that turn raw data into decisions.",
+    ctaLabel: "Turn Your Data Into Insights",
+    highlights: ["Combines scattered data sources", "Automated reporting", "Custom dashboards", "Built around your real metrics"],
     seoTitle: "Business Dashboards & Data Analytics | ZUNARK",
     seoDescription:
       "Turn scattered spreadsheets and disconnected tools into a single dashboard that shows what's actually happening in your business.",
@@ -204,6 +217,8 @@ export const SERVICES: Service[] = [
     navTitle: "Business Automation",
     title: "Business Automation",
     short: "Workflow automation and integrations that remove repetitive work.",
+    ctaLabel: "Automate Your Business",
+    highlights: ["Connects your existing tools", "Handles real edge cases", "Removes manual handoffs", "API & webhook integrations"],
     seoTitle: "Business Automation Solutions | ZUNARK",
     seoDescription:
       "Automate the repetitive, manual steps between the tools you already use — from lead intake to internal handoffs.",
@@ -246,6 +261,8 @@ export const SERVICES: Service[] = [
     navTitle: "Maintenance & Support",
     title: "Maintenance & Support",
     short: "Ongoing maintenance and digital transformation guidance after launch.",
+    ctaLabel: "Keep Your Systems Running",
+    highlights: ["Security & dependency updates", "Ongoing technical support", "Scoped to what you actually need", "Uptime monitoring"],
     seoTitle: "Website & Software Maintenance | ZUNARK",
     seoDescription:
       "Ongoing maintenance, updates and technical support for the websites and software we build — and guidance on what to prioritize next.",

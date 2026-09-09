@@ -146,6 +146,14 @@ export function WhatsAppIcon({ className }: IconProps) {
   );
 }
 
+export function CheckIcon({ className }: IconProps) {
+  return (
+    <svg {...base} width={16} height={16} className={className}>
+      <polyline points="4 12.5 9.5 18 20 6" />
+    </svg>
+  );
+}
+
 export const SERVICE_ICONS = {
   web: WebDevIcon,
   software: CustomSoftwareIcon,
