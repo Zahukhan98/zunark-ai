@@ -18,7 +18,7 @@ export default function ServicesPage() {
         >
           Services
         </div>
-        <h1 className="mb-4 text-4xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+        <h1 className="mb-4 text-4xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
           Solutions built around your business
         </h1>
         <p className="text-lg leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>
@@ -39,11 +39,11 @@ export default function ServicesPage() {
             >
               <div
                 className="mb-6 flex h-12 w-12 items-center justify-center rounded-[10px]"
-                style={{ background: "oklch(0.28 0.045 190)", color: "var(--zk-accent1)" }}
+                style={{ background: "var(--zk-panel-soft)", color: "var(--zk-accent1)" }}
               >
                 <Icon />
               </div>
-              <h2 className="mb-3 text-xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+              <h2 className="mb-3 text-xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
                 {service.title}
               </h2>
               <p className="mb-5 text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>
@@ -70,7 +70,7 @@ export default function ServicesPage() {
         style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel)" }}
       >
         <div>
-          <h2 className="mb-1 text-xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+          <h2 className="mb-1 text-xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
             Have a project in mind?
           </h2>
           <p className="text-sm" style={{ color: "var(--zk-fg-muted)" }}>
@@ -81,8 +81,8 @@ export default function ServicesPage() {
           href="/contact"
           className="zk-link shrink-0 rounded-full px-6 py-3 text-sm font-semibold"
           style={{
-            background: "linear-gradient(120deg, var(--zk-accent1), var(--zk-accent2))",
-            color: "oklch(0.14 0.02 205)",
+            background: "var(--zk-accent1)",
+            color: "oklch(1 0 0)",
           }}
         >
           Start a Project

@@ -41,14 +41,8 @@ export default function TechnologyPage() {
         >
           Technology
         </div>
-        <h1 className="mb-5 text-4xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
-          Human Expertise.{" "}
-          <span
-            className="italic"
-            style={{ fontFamily: "var(--font-serif-fam)", fontWeight: 400, color: "var(--zk-accent1)" }}
-          >
-            AI Acceleration.
-          </span>
+        <h1 className="mb-5 text-4xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
+          Human Expertise. <span style={{ color: "var(--zk-accent1)" }}>AI Acceleration.</span>
         </h1>
         <p className="text-lg leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>
           Modern AI tools are part of our development workflow — not a replacement for
@@ -62,7 +56,7 @@ export default function TechnologyPage() {
           className="rounded-2xl border p-8"
           style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}
         >
-          <h2 className="mb-5 text-lg font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+          <h2 className="mb-5 text-lg font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
             Where AI helps
           </h2>
           <ul className="flex flex-col gap-2.5">
@@ -79,7 +73,7 @@ export default function TechnologyPage() {
           className="rounded-2xl border p-8"
           style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}
         >
-          <h2 className="mb-5 text-lg font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+          <h2 className="mb-5 text-lg font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
             Where humans stay responsible
           </h2>
           <ul className="flex flex-col gap-2.5">

@@ -17,15 +17,10 @@ export default function AboutPage() {
         >
           About
         </div>
-        <h1 className="mb-8 text-4xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+        <h1 className="mb-8 text-4xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
           Understand the business first.{" "}
-          <span
-            className="italic"
-            style={{ fontFamily: "var(--font-serif-fam)", fontWeight: 400, color: "var(--zk-accent1)" }}
-          >
-            Design the solution second.
-          </span>{" "}
-          Build the technology third.
+          <span style={{ color: "var(--zk-accent1)" }}>Design the solution second.</span> Build the
+          technology third.
         </h1>
 
         <div className="flex flex-col gap-5 text-base leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>
@@ -63,7 +58,7 @@ export default function AboutPage() {
         >
           Founders
         </div>
-        <h2 className="mb-10 text-2xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+        <h2 className="mb-10 text-2xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
           Founder-led, from day one
         </h2>
       </div>
@@ -88,8 +83,8 @@ export default function AboutPage() {
                 <div
                   className="flex h-full w-full items-center justify-center text-5xl font-semibold"
                   style={{
-                    background: "linear-gradient(135deg, var(--zk-accent1), var(--zk-accent2))",
-                    color: "oklch(0.14 0.02 205)",
+                    background: "var(--zk-accent1)",
+                    color: "oklch(1 0 0)",
                     fontFamily: "var(--font-display-fam)",
                   }}
                 >
@@ -98,7 +93,7 @@ export default function AboutPage() {
               )}
             </div>
             <div className="p-8">
-              <h3 className="mb-1 text-xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+              <h3 className="mb-1 text-xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
                 {founder.name}
               </h3>
               <div className="mb-5 text-sm" style={{ color: "var(--zk-accent1)", fontFamily: "var(--font-mono-fam)" }}>

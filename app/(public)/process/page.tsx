@@ -16,7 +16,7 @@ export default function ProcessPage() {
         >
           How we work
         </div>
-        <h1 className="text-4xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+        <h1 className="text-4xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
           From requirement to running software
         </h1>
       </div>
@@ -35,7 +35,7 @@ export default function ProcessPage() {
               {step.number}
             </div>
             <div>
-              <h2 className="mb-1.5 text-xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+              <h2 className="mb-1.5 text-xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
                 {step.title}
               </h2>
               <p className="max-w-lg text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>

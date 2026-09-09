@@ -91,7 +91,7 @@ function Field({
 }
 
 const inputStyle = {
-  background: "oklch(0.1 0.01 200)",
+  background: "var(--zk-panel)",
   borderColor: "var(--zk-border)",
   color: "var(--zk-fg)",
 };
@@ -113,7 +113,7 @@ export default async function ContactPage({
           <div className="mb-3 text-xs uppercase tracking-wider" style={{ fontFamily: "var(--font-mono-fam)", color: "var(--zk-accent1)" }}>
             Thanks
           </div>
-          <h1 className="mb-3 text-2xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+          <h1 className="mb-3 text-2xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
             We&apos;ve got your project details
           </h1>
           <p className="text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>
@@ -134,7 +134,7 @@ export default async function ContactPage({
         >
           Start a Project
         </div>
-        <h1 className="mb-4 text-4xl font-semibold" style={{ fontFamily: "var(--font-display-fam)" }}>
+        <h1 className="mb-4 text-4xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
           Tell us about your project
         </h1>
         <p className="text-lg leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>
@@ -203,8 +203,8 @@ export default async function ContactPage({
             type="submit"
             className="zk-link rounded-full px-7 py-3.5 text-sm font-semibold"
             style={{
-              background: "linear-gradient(120deg, var(--zk-accent1), var(--zk-accent2))",
-              color: "oklch(0.14 0.02 205)",
+              background: "var(--zk-accent1)",
+              color: "oklch(1 0 0)",
             }}
           >
             Submit Project Inquiry

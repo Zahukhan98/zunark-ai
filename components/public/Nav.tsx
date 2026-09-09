@@ -39,8 +39,8 @@ export function PublicNav() {
           href="/contact"
           className="zk-link hidden rounded-full px-5 py-2.5 text-sm font-semibold sm:block"
           style={{
-            background: "linear-gradient(120deg, var(--zk-accent1), var(--zk-accent2))",
-            color: "oklch(0.14 0.02 205)",
+            background: "var(--zk-accent1)",
+            color: "oklch(1 0 0)",
           }}
         >
           Start a Project
@@ -112,8 +112,8 @@ export function PublicNav() {
           onClick={() => setOpen(false)}
           className="zk-link mt-4 rounded-full px-5 py-3 text-center text-sm font-semibold"
           style={{
-            background: "linear-gradient(120deg, var(--zk-accent1), var(--zk-accent2))",
-            color: "oklch(0.14 0.02 205)",
+            background: "var(--zk-accent1)",
+            color: "oklch(1 0 0)",
           }}
         >
           Start a Project

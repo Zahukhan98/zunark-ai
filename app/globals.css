@@ -26,22 +26,21 @@ body {
 }
 
 .zk {
-  --zk-bg: oklch(0.13 0.02 205);
-  --zk-panel: oklch(0.185 0.032 195);
-  --zk-panel-soft: oklch(0.23 0.038 195);
-  --zk-glass: oklch(0.32 0.045 190 / 0.45);
-  --zk-fg: oklch(0.96 0.012 190);
-  --zk-fg-muted: oklch(0.68 0.03 190);
-  --zk-accent1: oklch(0.8 0.14 178);
-  --zk-accent2: oklch(0.72 0.18 320);
-  --zk-accent3: oklch(0.78 0.15 65);
-  --zk-border: oklch(0.44 0.05 190 / 0.5);
+  --zk-bg: oklch(0.985 0.004 85);
+  --zk-panel: oklch(1 0 0);
+  --zk-panel-soft: oklch(0.97 0.005 85);
+  --zk-glass: oklch(1 0 0 / 0.82);
+  --zk-fg: oklch(0.22 0.014 260);
+  --zk-fg-muted: oklch(0.47 0.014 260);
+  --zk-accent1: oklch(0.32 0.06 255);
+  --zk-accent2: oklch(0.7 0.12 75);
+  --zk-accent3: oklch(0.7 0.12 75);
+  --zk-border: oklch(0.88 0.006 85);
   --font-display-fam: var(--font-display), ui-sans-serif, sans-serif;
   --font-body-fam: var(--font-body), ui-sans-serif, sans-serif;
   --font-mono-fam: var(--font-mono-public), ui-monospace, monospace;
-  --font-serif-fam: var(--font-serif-display), Georgia, serif;
 
-  background: radial-gradient(circle at 50% 0%, oklch(0.22 0.045 195) 0%, var(--zk-bg) 55%);
+  background: var(--zk-bg);
   color: var(--zk-fg);
   font-family: var(--font-body-fam);
   min-height: 100%;
