@@ -4,7 +4,7 @@ import { SERVICES } from "@/lib/services";
 import { SERVICE_ICONS, CheckIcon, ArrowRightIcon } from "@/components/public/icons";
 import { Breadcrumbs } from "@/components/public/Breadcrumbs";
 import { CTASection } from "@/components/public/CTASection";
-import { DeviceMockup, AbstractPanel } from "@/components/public/DeviceMockup";
+import { ServiceVisual } from "@/components/public/ServiceVisual";
 import { absoluteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -46,14 +46,8 @@ export default function ServicesPage() {
               style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}
             >
               <div className={reversed ? "lg:order-2" : ""}>
-                {service.previewImage ? (
-                  <DeviceMockup
-                    src={service.previewImage}
-                    alt={`${service.navTitle} preview`}
-                    label={`zunark-ai.com`}
-                  />
-                ) : (
-                  <AbstractPanel icon={Icon} />
+                {service.previewImage && (
+                  <ServiceVisual src={service.previewImage} alt={`${service.navTitle} illustration`} />
                 )}
               </div>
 

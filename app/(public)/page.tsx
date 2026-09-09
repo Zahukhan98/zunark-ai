@@ -134,14 +134,21 @@ export default function Home() {
               <Link
                 key={service.slug}
                 href={`/services/${service.slug}`}
-                className="zk-link rounded-2xl border p-7"
+                className="zk-link overflow-hidden rounded-2xl border"
                 style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel)" }}
               >
-                <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-[10px]" style={{ background: "var(--zk-panel-soft)", color: "var(--zk-accent1)" }}>
-                  <Icon />
+                {service.previewImage && (
+                  <div className="relative aspect-[3/2] w-full" style={{ background: "var(--zk-panel-soft)" }}>
+                    <Image src={service.previewImage} alt={`${service.navTitle} illustration`} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />
+                  </div>
+                )}
+                <div className="p-7">
+                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-[10px]" style={{ background: "var(--zk-panel-soft)", color: "var(--zk-accent1)" }}>
+                    <Icon />
+                  </div>
+                  <h3 className="mb-2 text-lg font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>{service.navTitle}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>{service.short}</p>
                 </div>
-                <h3 className="mb-2 text-lg font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>{service.navTitle}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>{service.short}</p>
               </Link>
             );
           })}

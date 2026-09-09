@@ -30,7 +30,7 @@ export const SERVICES: Service[] = [
     title: "Web Development",
     short: "Corporate sites, landing pages and e-commerce built to convert and last.",
     ctaLabel: "Build Your Website",
-    previewImage: "/services/web-development-preview.jpg",
+    previewImage: "/services/web-development-visual.jpg",
     highlights: ["Modern & responsive design", "Optimized for performance", "E-commerce solutions", "SEO-ready and scalable"],
     seoTitle: "Web Development Services | ZUNARK",
     seoDescription:
@@ -79,7 +79,7 @@ export const SERVICES: Service[] = [
     title: "Custom Software",
     short: "Dashboards, portals and business systems shaped around your workflow.",
     ctaLabel: "Build Your System",
-    previewImage: "/services/custom-software-preview.jpg",
+    previewImage: "/services/custom-software-visual.jpg",
     highlights: ["Built around your workflow", "Admin dashboards & portals", "Connects to your existing tools", "You own the codebase"],
     seoTitle: "Custom Software Development | ZUNARK",
     seoDescription:
@@ -128,6 +128,7 @@ export const SERVICES: Service[] = [
     title: "AI Solutions",
     short: "AI assistants and automation that plug into how your team works.",
     ctaLabel: "Explore AI Solutions",
+    previewImage: "/services/ai-solutions-visual.jpg",
     highlights: ["Content & document automation", "Custom AI workflows", "Human review built in", "Connected to your real data"],
     seoTitle: "AI Solutions for Businesses | ZUNARK",
     seoDescription:
@@ -176,6 +177,7 @@ export const SERVICES: Service[] = [
     title: "Data & Analytics",
     short: "Dashboards and reporting that turn raw data into decisions.",
     ctaLabel: "Turn Your Data Into Insights",
+    previewImage: "/services/data-analytics-visual.jpg",
     highlights: ["Combines scattered data sources", "Automated reporting", "Custom dashboards", "Built around your real metrics"],
     seoTitle: "Business Dashboards & Data Analytics | ZUNARK",
     seoDescription:
@@ -218,6 +220,7 @@ export const SERVICES: Service[] = [
     title: "Business Automation",
     short: "Workflow automation and integrations that remove repetitive work.",
     ctaLabel: "Automate Your Business",
+    previewImage: "/services/business-automation-visual.jpg",
     highlights: ["Connects your existing tools", "Handles real edge cases", "Removes manual handoffs", "API & webhook integrations"],
     seoTitle: "Business Automation Solutions | ZUNARK",
     seoDescription:
@@ -262,6 +265,7 @@ export const SERVICES: Service[] = [
     title: "Maintenance & Support",
     short: "Ongoing maintenance and digital transformation guidance after launch.",
     ctaLabel: "Keep Your Systems Running",
+    previewImage: "/services/it-consulting-visual.jpg",
     highlights: ["Security & dependency updates", "Ongoing technical support", "Scoped to what you actually need", "Uptime monitoring"],
     seoTitle: "Website & Software Maintenance | ZUNARK",
     seoDescription:
