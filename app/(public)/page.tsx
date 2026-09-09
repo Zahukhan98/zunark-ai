@@ -6,7 +6,7 @@ import { INDUSTRIES } from "@/lib/industries";
 import { CASE_STUDIES } from "@/lib/work";
 import { CTASection } from "@/components/public/CTASection";
 import { Reveal } from "@/components/public/Reveal";
-import { Typewriter } from "@/components/public/Typewriter";
+import { Marquee } from "@/components/public/Marquee";
 import { absoluteUrl } from "@/lib/seo";
 import type { Metadata } from "next";
 
@@ -87,7 +87,7 @@ export default function Home() {
               className="mb-8 text-xs font-semibold uppercase tracking-wider"
               style={{ fontFamily: "var(--font-mono-fam)", color: "oklch(0.82 0.01 255)" }}
             >
-              <Typewriter text={CAPABILITIES.join(" • ")} />
+              <Marquee text={CAPABILITIES.join("   •   ")} />
             </div>
             <div className="flex flex-wrap gap-4">
               <Link href="/contact" className="rounded-full px-6 py-3.5 text-sm font-semibold" style={{ background: "oklch(1 0 0)", color: "var(--zk-accent1)" }}>
