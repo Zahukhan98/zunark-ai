@@ -15,30 +15,6 @@ export type CaseStudy = {
 
 export const CASE_STUDIES: CaseStudy[] = [
   {
-    slug: "german-sme-website-development",
-    name: "Website Development for German SMEs",
-    industry: "Professional Services / Healthcare",
-    status: "delivered",
-    screenshots: [
-      { src: "/work/steuerberater-tabak.jpg", caption: "Tax advisory firm website", url: "https://steuerberater-tabak.com/" },
-      { src: "/work/ihrteam24.jpg", caption: "Care services provider website", url: "https://ihrteam24.de/" },
-    ],
-    attribution:
-      "Our founder contributed to the development of these websites while working with an international German technology company, prior to founding ZUNARK.",
-    problem:
-      "Several German small and medium-sized businesses — including a tax advisory firm and a care-services provider — needed professional, credible websites explaining their services clearly.",
-    solution:
-      "Collaborative website development covering design implementation, content structure and on-page technical setup.",
-    whatWeBuilt: [
-      "Corporate websites with clear service structure",
-      "Content and page architecture for non-technical editing",
-      "On-page technical setup (metadata, structure)",
-    ],
-    technologies: ["WordPress", "Custom theming", "On-page SEO structuring"],
-    outcome: "Contributed to live, in-use business websites including steuerberater-tabak.com and ihrteam24.de.",
-    relatedServices: ["web-development"],
-  },
-  {
     slug: "ecommerce-platform",
     name: "E-Commerce Platform",
     industry: "Retail",
