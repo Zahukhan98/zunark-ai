@@ -1,3 +1,5 @@
+import { WHATSAPP_TEL } from "@/lib/content";
+
 export const SITE_URL = "https://www.zunark-ai.com";
 export const SITE_NAME = "ZUNARK";
 export const ORG_NAME = "ZUNARK";
@@ -17,7 +19,7 @@ export function organizationJsonLd() {
     logo: absoluteUrl("/icon.png"),
     description: ORG_DESCRIPTION,
     email: "info@zunark-ai.com",
-    telephone: "+91-79935-76880",
+    telephone: WHATSAPP_TEL,
   };
 }
 

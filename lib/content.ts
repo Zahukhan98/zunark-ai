@@ -19,14 +19,12 @@ export const FOUNDERS = [
   },
 ];
 
-export const CONTACT_PHONE: string | null = "+91 79935 76880";
 export const CONTACT_EMAIL = "info@zunark-ai.com";
 export const WHATSAPP_NUMBER = "919346219198"; // company WhatsApp — digits only, for wa.me links
 export const WHATSAPP_DISPLAY = "+91 93462 19198";
+export const WHATSAPP_TEL = `+${WHATSAPP_NUMBER}`; // same number, formatted for tel: links
 
 // Official company details for invoices and letterhead documents.
-// Deliberately uses only the official company number, never the personal
-// contact number used elsewhere on the public site.
 export const COMPANY_LEGAL_NAME = "ZUNARK";
 export const COMPANY_OFFICIAL_PHONE = WHATSAPP_DISPLAY;
 export const COMPANY_WEBSITE = "www.zunark-ai.com";

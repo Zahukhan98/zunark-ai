@@ -17,7 +17,10 @@ export function PublicNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="relative flex items-center justify-between px-6 py-6 md:px-10">
+    <header
+      className="sticky top-0 z-30 flex items-center justify-between border-b px-6 py-6 md:px-10"
+      style={{ background: "var(--zk-bg)", borderColor: "var(--zk-border)" }}
+    >
       <Link
         href="/"
         className="text-xl font-semibold tracking-tight"

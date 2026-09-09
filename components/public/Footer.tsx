@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { MailIcon, PhoneIcon, WhatsAppIcon } from "@/components/public/icons";
-import { CONTACT_EMAIL, CONTACT_PHONE, WHATSAPP_NUMBER, WHATSAPP_DISPLAY } from "@/lib/content";
+import { CONTACT_EMAIL, WHATSAPP_NUMBER, WHATSAPP_DISPLAY, WHATSAPP_TEL } from "@/lib/content";
 
 const COLUMNS: { title: string; links: { href: string; label: string }[] }[] = [
   {
@@ -76,26 +76,24 @@ export function PublicFooter() {
           <Link href="/terms" className="zk-link">Terms</Link>
         </div>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-          <a
-            href={`https://wa.me/${WHATSAPP_NUMBER}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="zk-link flex items-center gap-2"
-            style={{ fontFamily: "var(--font-mono-fam)", color: "var(--zk-fg)" }}
-          >
-            <WhatsAppIcon />
-            {WHATSAPP_DISPLAY}
-          </a>
-          {CONTACT_PHONE && (
-            <a
-              href={`tel:${CONTACT_PHONE.replace(/[^+\d]/g, "")}`}
-              className="zk-link flex items-center gap-2"
-              style={{ fontFamily: "var(--font-mono-fam)", color: "var(--zk-fg)" }}
-            >
+          <div className="flex items-center gap-2" style={{ fontFamily: "var(--font-mono-fam)", color: "var(--zk-fg)" }}>
+            <a href={`tel:${WHATSAPP_TEL}`} aria-label="Call us" className="zk-link flex items-center" title="Call">
               <PhoneIcon />
-              {CONTACT_PHONE}
             </a>
-          )}
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp us"
+              className="zk-link flex items-center"
+              title="WhatsApp"
+            >
+              <WhatsAppIcon />
+            </a>
+            <a href={`tel:${WHATSAPP_TEL}`} className="zk-link">
+              {WHATSAPP_DISPLAY}
+            </a>
+          </div>
           <a
             href={`mailto:${CONTACT_EMAIL}`}
             className="zk-link flex items-center gap-2"

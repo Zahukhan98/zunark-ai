@@ -62,7 +62,7 @@ const WHY_ZUNARK = [
 export default function Home() {
   return (
     <div>
-      <section className="relative flex min-h-[560px] items-center overflow-hidden md:min-h-[640px]">
+      <section className="relative mx-auto flex min-h-[480px] w-full max-w-[2000px] items-center overflow-hidden sm:min-h-[540px] md:min-h-[620px] lg:min-h-[700px] xl:min-h-[780px] 2xl:min-h-[860px]">
         <Image src="/office-hero.jpg" alt="The zunark-ai office" fill priority sizes="100vw" className="object-cover" />
         <div
           className="absolute inset-0"
