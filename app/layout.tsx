@@ -31,9 +31,21 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "zunark-ai — From Business Ideas to Digital Products",
+  metadataBase: new URL("https://www.zunark-ai.com"),
+  title: {
+    default: "ZUNARK | Websites, Software, AI & Automation",
+    template: "%s",
+  },
   description:
-    "We design and build websites, software and intelligent digital solutions around the way your business actually works.",
+    "ZUNARK designs and builds websites, custom software, AI solutions and automation that fit the way your business actually works.",
+  openGraph: {
+    siteName: "ZUNARK",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

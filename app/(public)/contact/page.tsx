@@ -2,21 +2,16 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { Breadcrumbs } from "@/components/public/Breadcrumbs";
+import { absoluteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Start a Project — zunark-ai",
-  description: "Tell us about your project and we'll get back to you.",
+  title: "Discuss Your Project | ZUNARK",
+  description: "Tell us what you're looking to build — a website, custom software, an AI solution, automation or a dashboard — and we'll get back to you.",
+  alternates: { canonical: absoluteUrl("/contact") },
 };
 
-const PROJECT_TYPES = [
-  "Website",
-  "Web application",
-  "AI tool",
-  "Automation",
-  "Business software",
-  "Data/analytics",
-  "Other",
-];
+const PROJECT_TYPES = ["Website", "Custom Software", "AI Solution", "Automation", "Dashboard / Analytics", "Other"];
 
 const inquirySchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(200),
@@ -34,6 +29,13 @@ const inquirySchema = z.object({
 
 async function submitInquiry(formData: FormData) {
   "use server";
+
+  // Honeypot: a field hidden from real users via CSS. Bots that auto-fill every
+  // field will populate this; humans never see or fill it. Silently "succeed"
+  // without writing to the database so bots don't learn to avoid the field.
+  if (String(formData.get("website_url") || "").length > 0) {
+    redirect("/contact?submitted=1");
+  }
 
   const parsed = inquirySchema.safeParse({
     name: formData.get("name"),
@@ -73,13 +75,7 @@ async function submitInquiry(formData: FormData) {
   redirect("/contact?submitted=1");
 }
 
-function Field({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="flex flex-col gap-2">
       <span className="text-xs font-medium" style={{ color: "var(--zk-fg-muted)" }}>
@@ -106,11 +102,8 @@ export default async function ContactPage({
   if (params.submitted) {
     return (
       <div className="flex flex-col items-start px-6 py-24 md:px-16">
-        <div
-          className="max-w-lg rounded-2xl border p-10"
-          style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}
-        >
-          <div className="mb-3 text-xs uppercase tracking-wider" style={{ fontFamily: "var(--font-mono-fam)", color: "var(--zk-accent1)" }}>
+        <div className="max-w-lg rounded-2xl border p-10" style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}>
+          <div className="mb-3 text-xs font-semibold uppercase tracking-wider" style={{ fontFamily: "var(--font-mono-fam)", color: "var(--zk-accent1)" }}>
             Thanks
           </div>
           <h1 className="mb-3 text-2xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
@@ -127,12 +120,10 @@ export default async function ContactPage({
 
   return (
     <div className="px-6 py-16 md:px-16">
+      <Breadcrumbs items={[{ name: "Contact", path: "/contact" }]} />
       <div className="mb-10 max-w-xl">
-        <div
-          className="mb-3 text-xs uppercase tracking-wider"
-          style={{ fontFamily: "var(--font-mono-fam)", color: "var(--zk-accent1)" }}
-        >
-          Start a Project
+        <div className="mb-3 text-xs font-semibold uppercase tracking-wider" style={{ fontFamily: "var(--font-mono-fam)", color: "var(--zk-accent1)" }}>
+          Discuss Your Project
         </div>
         <h1 className="mb-4 text-4xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
           Tell us about your project
@@ -152,6 +143,15 @@ export default async function ContactPage({
       </div>
 
       <form action={submitInquiry} className="grid max-w-3xl grid-cols-1 gap-5 sm:grid-cols-2">
+        <input
+          type="text"
+          name="website_url"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          className="pointer-events-none absolute h-0 w-0 opacity-0"
+          style={{ left: "-9999px" }}
+        />
         <Field label="Full name *">
           <input name="name" required className="rounded-lg border px-4 py-2.5 text-sm outline-none" style={inputStyle} />
         </Field>
@@ -161,7 +161,7 @@ export default async function ContactPage({
         <Field label="Email *">
           <input name="email" type="email" required className="rounded-lg border px-4 py-2.5 text-sm outline-none" style={inputStyle} />
         </Field>
-        <Field label="Phone">
+        <Field label="Phone / WhatsApp">
           <input name="phone" className="rounded-lg border px-4 py-2.5 text-sm outline-none" style={inputStyle} />
         </Field>
         <Field label="Country">
@@ -170,10 +170,10 @@ export default async function ContactPage({
         <Field label="Industry">
           <input name="industry" className="rounded-lg border px-4 py-2.5 text-sm outline-none" style={inputStyle} />
         </Field>
-        <Field label="Project type *">
+        <Field label="What are you looking to build? *">
           <select name="projectType" required defaultValue="" className="rounded-lg border px-4 py-2.5 text-sm outline-none" style={inputStyle}>
             <option value="" disabled>
-              Select a project type
+              Select an option
             </option>
             {PROJECT_TYPES.map((type) => (
               <option key={type} value={type}>
@@ -182,7 +182,7 @@ export default async function ContactPage({
             ))}
           </select>
         </Field>
-        <Field label="Estimated budget">
+        <Field label="Estimated budget (optional)">
           <input name="budget" placeholder="e.g. $5,000–$10,000" className="rounded-lg border px-4 py-2.5 text-sm outline-none" style={inputStyle} />
         </Field>
         <Field label="Desired timeline">
@@ -202,12 +202,9 @@ export default async function ContactPage({
           <button
             type="submit"
             className="zk-link rounded-full px-7 py-3.5 text-sm font-semibold"
-            style={{
-              background: "var(--zk-accent1)",
-              color: "oklch(1 0 0)",
-            }}
+            style={{ background: "var(--zk-accent1)", color: "oklch(1 0 0)" }}
           >
-            Submit Project Inquiry
+            Discuss Your Project
           </button>
         </div>
       </form>

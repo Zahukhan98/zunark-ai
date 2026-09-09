@@ -1,30 +1,36 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SERVICES } from "@/lib/content";
+import { SERVICES } from "@/lib/services";
 import { SERVICE_ICONS } from "@/components/public/icons";
+import { Breadcrumbs } from "@/components/public/Breadcrumbs";
+import { CTASection } from "@/components/public/CTASection";
+import { absoluteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Services — zunark-ai",
-  description: "Web development, custom software, AI solutions, data & analytics, automation and IT consulting.",
+  title: "Services | ZUNARK",
+  description:
+    "Web development, custom software, AI solutions, data & analytics, business automation and ongoing maintenance — built around how your business actually works.",
+  alternates: { canonical: absoluteUrl("/services") },
 };
 
 export default function ServicesPage() {
   return (
     <div className="px-6 py-16 md:px-16">
+      <Breadcrumbs items={[{ name: "Services", path: "/services" }]} />
       <div className="mb-14 max-w-2xl">
         <div
-          className="mb-3 text-xs uppercase tracking-wider"
+          className="mb-3 text-xs font-semibold uppercase tracking-wider"
           style={{ fontFamily: "var(--font-mono-fam)", color: "var(--zk-accent1)" }}
         >
           Services
         </div>
         <h1 className="mb-4 text-4xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
-          Solutions built around your business
+          We turn business problems into digital systems
         </h1>
         <p className="text-lg leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>
-          We start by understanding the business, then translate requirements into a
-          structured digital solution — combining human engineering with modern
-          AI-assisted development.
+          We start by understanding the business problem, then build the specific
+          websites, software, AI tools or automation that solve it — not a generic
+          package of services.
         </p>
       </div>
 
@@ -32,61 +38,37 @@ export default function ServicesPage() {
         {SERVICES.map((service) => {
           const Icon = SERVICE_ICONS[service.icon];
           return (
-            <div
+            <Link
               key={service.slug}
-              className="rounded-2xl border p-8"
+              href={`/services/${service.slug}`}
+              className="zk-link group rounded-2xl border p-8 transition-colors"
               style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel-soft)" }}
             >
               <div
                 className="mb-6 flex h-12 w-12 items-center justify-center rounded-[10px]"
-                style={{ background: "var(--zk-panel-soft)", color: "var(--zk-accent1)" }}
+                style={{ background: "var(--zk-panel)", color: "var(--zk-accent1)" }}
               >
                 <Icon />
               </div>
               <h2 className="mb-3 text-xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
-                {service.title}
+                {service.navTitle}
               </h2>
               <p className="mb-5 text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>
                 {service.short}
               </p>
-              <ul className="flex flex-col gap-2">
-                {service.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm" style={{ color: "var(--zk-fg-muted)" }}>
-                    <span
-                      className="mt-1.5 h-1 w-1 shrink-0 rounded-full"
-                      style={{ background: "var(--zk-accent1)" }}
-                    />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+              <span className="text-sm font-medium underline" style={{ color: "var(--zk-accent1)" }}>
+                Learn more →
+              </span>
+            </Link>
           );
         })}
       </div>
 
-      <div
-        className="mt-14 flex flex-col items-start gap-5 rounded-2xl border p-9 sm:flex-row sm:items-center sm:justify-between"
-        style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel)" }}
-      >
-        <div>
-          <h2 className="mb-1 text-xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>
-            Have a project in mind?
-          </h2>
-          <p className="text-sm" style={{ color: "var(--zk-fg-muted)" }}>
-            Tell us what you&apos;re working on and we&apos;ll get back to you.
-          </p>
-        </div>
-        <Link
-          href="/contact"
-          className="zk-link shrink-0 rounded-full px-6 py-3 text-sm font-semibold"
-          style={{
-            background: "var(--zk-accent1)",
-            color: "oklch(1 0 0)",
-          }}
-        >
-          Start a Project
-        </Link>
+      <div className="mt-14">
+        <CTASection
+          heading="Not sure what you need?"
+          supporting="Tell us about the problem — we'll help you figure out the right service."
+        />
       </div>
     </div>
   );

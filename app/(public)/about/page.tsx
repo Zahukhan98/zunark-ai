@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { FOUNDERS } from "@/lib/content";
+import { Breadcrumbs } from "@/components/public/Breadcrumbs";
+import { CTASection } from "@/components/public/CTASection";
+import { absoluteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "About — zunark-ai",
-  description: "Why zunark-ai exists, how we work, and who's behind it.",
+  title: "About ZUNARK | A Technology Partner, Not a Generic Agency",
+  description: "Why ZUNARK exists, how projects are approached, and who's behind it.",
+  alternates: { canonical: absoluteUrl("/about") },
 };
 
 export default function AboutPage() {
   return (
     <div className="px-6 py-16 md:px-16">
+      <Breadcrumbs items={[{ name: "About", path: "/about" }]} />
       <div className="max-w-2xl">
         <div
           className="mb-3 text-xs uppercase tracking-wider"
@@ -116,6 +122,20 @@ export default function AboutPage() {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="mt-16 max-w-2xl">
+        <p className="text-sm leading-relaxed" style={{ color: "var(--zk-fg-muted)" }}>
+          Curious how a project actually runs with us?{" "}
+          <Link href="/process" className="zk-link underline" style={{ color: "var(--zk-accent1)" }}>
+            See how we work
+          </Link>
+          .
+        </p>
+      </div>
+
+      <div className="mt-16">
+        <CTASection heading="Want to talk to our team?" supporting="Tell us about your business — we'll tell you honestly whether we're the right fit." />
       </div>
     </div>
   );

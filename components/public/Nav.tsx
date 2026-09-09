@@ -5,16 +5,19 @@ import Link from "next/link";
 
 const NAV_LINKS = [
   { href: "/services", label: "Services" },
-  { href: "/process", label: "Process" },
-  { href: "/technology", label: "Technology" },
+  { href: "/solutions", label: "Solutions" },
+  { href: "/industries", label: "Industries" },
+  { href: "/work", label: "Work" },
+  { href: "/insights", label: "Insights" },
   { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function PublicNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="relative flex items-center justify-between px-6 py-6 md:px-16">
+    <header className="relative flex items-center justify-between px-6 py-6 md:px-10">
       <Link
         href="/"
         className="text-xl font-semibold tracking-tight"
@@ -24,7 +27,7 @@ export function PublicNav() {
       </Link>
 
       <nav
-        className="hidden items-center gap-9 text-sm md:flex"
+        className="hidden items-center gap-6 text-sm lg:flex"
         style={{ color: "var(--zk-fg-muted)" }}
       >
         {NAV_LINKS.map((link) => (
@@ -43,14 +46,14 @@ export function PublicNav() {
             color: "oklch(1 0 0)",
           }}
         >
-          Start a Project
+          Discuss Your Project
         </Link>
 
         <button
           type="button"
           aria-label="Open menu"
           onClick={() => setOpen(true)}
-          className="flex h-10 w-10 items-center justify-center rounded-lg border md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-lg border lg:hidden"
           style={{ borderColor: "var(--zk-border)" }}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
@@ -62,7 +65,7 @@ export function PublicNav() {
       </div>
 
       <div
-        className="fixed inset-0 z-40 transition-opacity duration-300 md:hidden"
+        className="fixed inset-0 z-40 transition-opacity duration-300 lg:hidden"
         style={{
           background: "oklch(0 0 0 / 0.6)",
           opacity: open ? 1 : 0,
@@ -73,7 +76,7 @@ export function PublicNav() {
       />
 
       <div
-        className="fixed inset-y-0 right-0 z-50 flex w-72 flex-col gap-1 border-l p-6 transition-transform duration-300 md:hidden"
+        className="fixed inset-y-0 right-0 z-50 flex w-72 flex-col gap-1 border-l p-6 transition-transform duration-300 lg:hidden"
         style={{
           background: "var(--zk-panel)",
           borderColor: "var(--zk-border)",
@@ -116,7 +119,7 @@ export function PublicNav() {
             color: "oklch(1 0 0)",
           }}
         >
-          Start a Project
+          Discuss Your Project
         </Link>
       </div>
     </header>

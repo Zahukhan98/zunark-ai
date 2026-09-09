@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/public/Breadcrumbs";
+import { CTASection } from "@/components/public/CTASection";
+import { absoluteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Technology — zunark-ai",
+  title: "Our Technology Approach | ZUNARK",
   description: "How we use AI-assisted development, and where human judgment stays in charge.",
+  alternates: { canonical: absoluteUrl("/technology") },
 };
 
 const AI_ASSISTS_WITH = [
@@ -34,9 +38,10 @@ const HUMANS_STAY_RESPONSIBLE_FOR = [
 export default function TechnologyPage() {
   return (
     <div className="px-6 py-16 md:px-16">
+      <Breadcrumbs items={[{ name: "Technology", path: "/technology" }]} />
       <div className="mb-14 max-w-2xl">
         <div
-          className="mb-3 text-xs uppercase tracking-wider"
+          className="mb-3 text-xs font-semibold uppercase tracking-wider"
           style={{ fontFamily: "var(--font-mono-fam)", color: "var(--zk-accent1)" }}
         >
           Technology
@@ -85,6 +90,10 @@ export default function TechnologyPage() {
             ))}
           </ul>
         </div>
+      </div>
+
+      <div className="mt-16">
+        <CTASection heading="Curious how this applies to your project?" supporting="Tell us what you're building and we'll explain exactly where AI would help." />
       </div>
     </div>
   );
