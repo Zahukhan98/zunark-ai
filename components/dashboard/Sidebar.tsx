@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { GridIcon, MailIcon, UsersIcon, FolderIcon, PersonIcon, InvoiceIcon, DocumentIcon } from "@/components/public/icons";
+import { GridIcon, MailIcon, UsersIcon, FolderIcon, PersonIcon, InvoiceIcon, DocumentIcon, VideoIcon } from "@/components/public/icons";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Overview", icon: GridIcon, exact: true },
+  { href: "/dashboard/meetings", label: "Meetings", icon: VideoIcon },
   { href: "/dashboard/inquiries", label: "Inquiries", icon: MailIcon, roles: ["SUPER_ADMIN", "ADMIN"] },
   { href: "/dashboard/clients", label: "Clients", icon: UsersIcon },
   { href: "/dashboard/projects", label: "Projects", icon: FolderIcon },

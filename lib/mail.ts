@@ -175,6 +175,56 @@ export async function sendProjectAcceptedEmail(data: { name: string; email: stri
   }
 }
 
+export async function sendMeetingInviteEmail(data: {
+  to: string;
+  hostName: string;
+  title: string;
+  scheduledAt: Date;
+  meetingId: string;
+}) {
+  const transport = getTransport();
+  if (!transport) {
+    console.warn("SMTP not configured — skipping meeting invite email.");
+    return;
+  }
+
+  const from = process.env.SMTP_USER;
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const joinUrl = `${baseUrl}/dashboard/meetings/${data.meetingId}`;
+  const whenText = data.scheduledAt.toLocaleString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+
+  const html = `
+    <div style="font-family:sans-serif;font-size:15px;color:#222;line-height:1.6;">
+      <p>You've been invited to a meeting:</p>
+      <h2 style="margin:8px 0;">${escapeHtml(data.title)}</h2>
+      <p><b>Host:</b> ${escapeHtml(data.hostName)}<br><b>When:</b> ${escapeHtml(whenText)}</p>
+      <p style="margin-top:20px;">
+        <a href="${joinUrl}" style="display:inline-block;padding:10px 20px;background:#0f172a;color:#fff;border-radius:8px;text-decoration:none;">
+          View meeting
+        </a>
+      </p>
+      <p style="margin-top:20px;color:#888;font-size:12px;">You'll see a "Join" button here once it starts. This link only works if you're signed in to the zunark-ai dashboard.</p>
+    </div>
+  `;
+
+  try {
+    await transport.sendMail({
+      from: `"ZUNARK" <${from}>`,
+      to: data.to,
+      subject: `Meeting invite: ${data.title}`,
+      html,
+    });
+  } catch (err) {
+    console.error("Failed to send meeting invite email:", err);
+  }
+}
+
 function escapeHtml(s: string) {
   return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
 }

@@ -154,6 +154,15 @@ export function CheckIcon({ className }: IconProps) {
   );
 }
 
+export function VideoIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <rect x="2.5" y="6" width="13" height="12" rx="2" />
+      <path d="M15.5 10.2 21 7v10l-5.5-3.2z" />
+    </svg>
+  );
+}
+
 export function InvoiceIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>

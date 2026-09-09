@@ -66,6 +66,13 @@ enum LetterType {
   CONTRACT
 }
 
+enum MeetingStatus {
+  SCHEDULED
+  ONGOING
+  ENDED
+  CANCELLED
+}
+
 model User {
   id           String   @id @default(cuid())
   name         String
@@ -83,6 +90,8 @@ model User {
   uploadedDocuments Document[]
   invoices         Invoice[]
   letters          Letter[]
+  hostedMeetings   Meeting[]            @relation("MeetingHost")
+  meetingInvites   MeetingParticipant[]
 
   @@map("users")
 }
@@ -389,4 +398,35 @@ model ActivityLog {
   createdAt  DateTime @default(now())
 
   @@map("activity_logs")
+}
+
+model Meeting {
+  id          String        @id @default(cuid())
+  title       String
+  status      MeetingStatus @default(SCHEDULED)
+  // Null scheduledAt = instant meeting, already ONGOING from creation.
+  scheduledAt DateTime?
+  startedAt   DateTime?
+  endedAt     DateTime?
+  host        User          @relation("MeetingHost", fields: [hostId], references: [id])
+  hostId      String
+  createdAt   DateTime      @default(now())
+
+  participants MeetingParticipant[]
+
+  @@map("meetings")
+}
+
+model MeetingParticipant {
+  id                String    @id @default(cuid())
+  meeting           Meeting   @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  meetingId         String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            String
+  invitedAt         DateTime  @default(now())
+  inviteEmailSentAt DateTime?
+  joinedAt          DateTime?
+
+  @@unique([meetingId, userId])
+  @@map("meeting_participants")
 }
