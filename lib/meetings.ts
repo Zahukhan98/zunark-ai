@@ -129,3 +129,22 @@ export async function listMyMeetings(userId: string) {
     orderBy: [{ status: "asc" }, { scheduledAt: "asc" }, { createdAt: "desc" }],
   });
 }
+
+export async function listMeetingMessages(meetingId: string) {
+  return prisma.meetingMessage.findMany({
+    where: { meetingId },
+    include: { sender: { select: { id: true, name: true } } },
+    orderBy: { createdAt: "asc" },
+  });
+}
+
+export async function sendMeetingMessage(meetingId: string, senderId: string, body: string) {
+  const trimmed = body.trim();
+  if (!trimmed) throw new MeetingError("Message can't be empty.");
+  if (trimmed.length > 2000) throw new MeetingError("Message is too long.");
+
+  return prisma.meetingMessage.create({
+    data: { meetingId, senderId, body: trimmed },
+    include: { sender: { select: { id: true, name: true } } },
+  });
+}

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { canAccessMeeting, endMeeting, cancelMeeting } from "@/lib/meetings";
+import { MeetingChat } from "@/components/dashboard/MeetingChat";
 
 async function endMeetingAction(formData: FormData) {
   "use server";
@@ -99,24 +100,30 @@ export default async function MeetingDetailPage({ params }: { params: Promise<{ 
         )}
       </div>
 
-      <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide" style={{ color: "var(--zk-accent1)" }}>
-        Participants
-      </h2>
-      <div className="flex flex-col gap-2">
-        {meeting.participants.map((p) => (
-          <div
-            key={p.id}
-            className="flex items-center justify-between rounded-lg border px-4 py-2.5 text-sm"
-            style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel)" }}
-          >
-            <span>
-              {p.user.name} {p.userId === meeting.hostId && "(host)"}
-            </span>
-            <span style={{ color: "var(--zk-fg-muted)" }}>
-              {p.inviteEmailSentAt ? "Invited by email" : ""}
-            </span>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <div>
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide" style={{ color: "var(--zk-accent1)" }}>
+            Participants
+          </h2>
+          <div className="flex flex-col gap-2">
+            {meeting.participants.map((p) => (
+              <div
+                key={p.id}
+                className="flex items-center justify-between rounded-lg border px-4 py-2.5 text-sm"
+                style={{ borderColor: "var(--zk-border)", background: "var(--zk-panel)" }}
+              >
+                <span>
+                  {p.user.name} {p.userId === meeting.hostId && "(host)"}
+                </span>
+                <span style={{ color: "var(--zk-fg-muted)" }}>
+                  {p.inviteEmailSentAt ? "Invited by email" : ""}
+                </span>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+
+        <MeetingChat meetingId={meeting.id} currentUserId={session.user.id} />
       </div>
     </div>
   );

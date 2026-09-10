@@ -42,6 +42,14 @@ export function PublicNav() {
 
       <div className="flex items-center gap-3">
         <Link
+          href="/login"
+          className="zk-link hidden text-sm font-medium lg:block"
+          style={{ color: "var(--zk-fg-muted)" }}
+        >
+          Login
+        </Link>
+
+        <Link
           href="/contact"
           className="zk-link hidden rounded-full px-5 py-2.5 text-sm font-semibold sm:block"
           style={{
@@ -123,6 +131,15 @@ export function PublicNav() {
           }}
         >
           Discuss Your Project
+        </Link>
+
+        <Link
+          href="/login"
+          onClick={() => setOpen(false)}
+          className="zk-link rounded-lg px-3 py-3 text-center text-sm"
+          style={{ color: "var(--zk-fg-muted)" }}
+        >
+          Login
         </Link>
       </div>
     </header>
