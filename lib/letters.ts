@@ -33,6 +33,7 @@ export async function createLetter(formData: FormData) {
   let contractCurrency: string | null = null;
   let projectStartDate: Date | null = null;
   let projectDeliveryDate: Date | null = null;
+  let sellerVatNumber: string | null = null;
 
   if (type === "CONTRACT") {
     const costRaw = String(formData.get("contractCost") || "");
@@ -40,6 +41,7 @@ export async function createLetter(formData: FormData) {
     const deliveryRaw = String(formData.get("projectDeliveryDate") || "");
     contractCost = Number(costRaw);
     contractCurrency = String(formData.get("contractCurrency") || "SAR").trim();
+    sellerVatNumber = String(formData.get("sellerVatNumber") || "").trim() || null;
     if (!recipientName || !startRaw || !deliveryRaw || !Number.isFinite(contractCost) || contractCost <= 0) {
       throw new Error("Company name, start date, delivery date and cost are required for a contract letter");
     }
@@ -61,6 +63,7 @@ export async function createLetter(formData: FormData) {
       contractCurrency,
       projectStartDate,
       projectDeliveryDate,
+      sellerVatNumber,
       letterDate: letterDateRaw ? new Date(letterDateRaw) : new Date(),
       createdById: session.user.id,
     },

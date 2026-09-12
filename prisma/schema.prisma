@@ -398,6 +398,7 @@ model Letter {
   contractCurrency    String?    @default("SAR")
   projectStartDate    DateTime?
   projectDeliveryDate DateTime?
+  sellerVatNumber     String?
   createdBy           User       @relation(fields: [createdById], references: [id])
   createdById         String
   createdAt           DateTime   @default(now())

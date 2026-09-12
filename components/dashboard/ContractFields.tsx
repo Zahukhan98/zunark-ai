@@ -43,6 +43,8 @@ export function ContractFields({
   const [recipientAddress, setRecipientAddress] = useState(initialProject?.client.address || "");
   const [contractCost, setContractCost] = useState(initialProject?.cost || 0);
   const [contractCurrency, setContractCurrency] = useState("SAR");
+  const [vatRegistered, setVatRegistered] = useState(false);
+  const [sellerVatNumber, setSellerVatNumber] = useState("");
 
   function onSelectProject(id: string) {
     setProjectId(id);
@@ -103,6 +105,31 @@ export function ContractFields({
       <Field label="Company / client address">
         <textarea name="recipientAddress" rows={2} value={recipientAddress} onChange={(e) => setRecipientAddress(e.target.value)} className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
       </Field>
+
+      <div className="flex flex-col gap-2">
+        <label className="flex items-center gap-2 text-sm" style={{ color: "var(--zk-fg-muted)" }}>
+          <input
+            type="checkbox"
+            checked={vatRegistered}
+            onChange={(e) => {
+              setVatRegistered(e.target.checked);
+              if (!e.target.checked) setSellerVatNumber("");
+            }}
+          />
+          Mention VAT registration on this contract
+        </label>
+        {vatRegistered && (
+          <input
+            name="sellerVatNumber"
+            required
+            placeholder="VAT registration number"
+            value={sellerVatNumber}
+            onChange={(e) => setSellerVatNumber(e.target.value)}
+            className="rounded-lg border px-3 py-2.5 text-sm outline-none"
+            style={inputStyle}
+          />
+        )}
+      </div>
     </>
   );
 }
