@@ -6,6 +6,7 @@ import { notFound, redirect } from "next/navigation";
 import type { Role } from "@prisma/client";
 import { PrintHeader } from "@/components/dashboard/PrintHeader";
 import { PrintButton } from "@/components/dashboard/PrintButton";
+import { COMPANY_LEGAL_NAME, COMPANY_ADDRESS, COMPANY_VAT_NUMBER, COMPANY_CR_NUMBER } from "@/lib/content";
 
 export default async function PrintInvoicePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -34,30 +35,40 @@ export default async function PrintInvoicePage({ params }: { params: Promise<{ i
 
         <div className="mt-8 flex items-start justify-between">
           <div>
-            <div className="text-2xl font-bold" style={{ color: "#0f1b2d" }}>INVOICE</div>
+            <div className="text-2xl font-bold" style={{ color: "#0f1b2d" }}>TAX INVOICE</div>
+            <div className="text-sm text-gray-500" dir="rtl">فاتورة ضريبية</div>
             <div className="mt-1 text-sm text-gray-500">{invoice.invoiceNumber}</div>
           </div>
           <div className="text-right text-sm text-gray-600">
-            <div>Issue date: {invoice.issueDate.toLocaleDateString("en-IN")}</div>
+            <div>Issue date: {invoice.issueDate.toLocaleString("en-IN")}</div>
             {invoice.dueDate && <div>Due date: {invoice.dueDate.toLocaleDateString("en-IN")}</div>}
           </div>
         </div>
 
         <div className="mt-8 grid grid-cols-2 gap-8">
           <div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-gray-400">From</div>
+            <div className="mt-1.5 text-sm font-semibold">{COMPANY_LEGAL_NAME}</div>
+            {COMPANY_ADDRESS && <div className="whitespace-pre-wrap text-sm text-gray-600">{COMPANY_ADDRESS}</div>}
+            <div className="mt-1 text-sm text-gray-600">VAT Registration No: {COMPANY_VAT_NUMBER || "Not yet VAT-registered"}</div>
+            {COMPANY_CR_NUMBER && <div className="text-sm text-gray-600">CR No: {COMPANY_CR_NUMBER}</div>}
+          </div>
+          <div>
             <div className="text-xs font-semibold uppercase tracking-wide text-gray-400">Bill to</div>
             <div className="mt-1.5 text-sm font-semibold">{invoice.clientName}</div>
             {invoice.clientCompany && <div className="text-sm text-gray-600">{invoice.clientCompany}</div>}
             {invoice.clientEmail && <div className="text-sm text-gray-600">{invoice.clientEmail}</div>}
             {invoice.clientAddress && <div className="whitespace-pre-wrap text-sm text-gray-600">{invoice.clientAddress}</div>}
+            <div className="mt-1 text-sm text-gray-600">VAT No: {invoice.buyerVatNumber || "N/A"}</div>
           </div>
-          {invoice.projectName && (
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-wide text-gray-400">Project</div>
-              <div className="mt-1.5 text-sm">{invoice.projectName}</div>
-            </div>
-          )}
         </div>
+
+        {invoice.projectName && (
+          <div className="mt-6">
+            <div className="text-xs font-semibold uppercase tracking-wide text-gray-400">Project</div>
+            <div className="mt-1.5 text-sm">{invoice.projectName}</div>
+          </div>
+        )}
 
         <table className="mt-10 w-full text-[11px] sm:text-sm">
           <thead>
@@ -82,7 +93,7 @@ export default async function PrintInvoicePage({ params }: { params: Promise<{ i
 
         <div className="mt-4 flex flex-col items-end gap-1 text-sm">
           <div className="flex w-56 justify-between text-gray-600"><span>Subtotal</span><span>{formatCurrency(subtotal, invoice.currency)}</span></div>
-          <div className="flex w-56 justify-between text-gray-600"><span>Tax ({Number(invoice.taxRate)}%)</span><span>{formatCurrency(taxAmount, invoice.currency)}</span></div>
+          <div className="flex w-56 justify-between text-gray-600"><span>VAT ({Number(invoice.taxRate)}%)</span><span>{formatCurrency(taxAmount, invoice.currency)}</span></div>
           <div className="flex w-56 justify-between border-t pt-1.5 text-base font-bold" style={{ borderColor: "#0f1b2d" }}><span>Total</span><span>{formatCurrency(total, invoice.currency)}</span></div>
         </div>
 

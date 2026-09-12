@@ -19,6 +19,8 @@ async function createClient(formData: FormData) {
   const phone = String(formData.get("phone") || "").trim();
   const country = String(formData.get("country") || "").trim();
   const industry = String(formData.get("industry") || "").trim();
+  const address = String(formData.get("address") || "").trim();
+  const vatNumber = String(formData.get("vatNumber") || "").trim();
 
   if (!name || !email) throw new Error("Name and email are required");
 
@@ -30,6 +32,8 @@ async function createClient(formData: FormData) {
       phone: phone || null,
       country: country || null,
       industry: industry || null,
+      address: address || null,
+      vatNumber: vatNumber || null,
     },
   });
 
@@ -97,6 +101,8 @@ export default async function ClientsPage() {
               <input name="country" placeholder="Country" className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
               <input name="industry" placeholder="Industry" className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
             </div>
+            <textarea name="address" placeholder="Address (for invoices/contracts)" rows={2} className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
+            <input name="vatNumber" placeholder="VAT number (optional)" className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
             <button
               type="submit"
               className="mt-1 rounded-lg px-3 py-2.5 text-sm font-semibold"

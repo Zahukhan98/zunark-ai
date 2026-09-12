@@ -99,9 +99,11 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
           )}
         </div>
 
+        <p className="mb-1 text-sm" style={{ color: "var(--zk-fg-muted)" }}>Issued: {invoice.issueDate.toLocaleString()}</p>
         {invoice.projectName && (
-          <p className="mb-3 text-sm"><span style={{ color: "var(--zk-fg-muted)" }}>Project: </span>{invoice.projectName}</p>
+          <p className="mb-1 text-sm"><span style={{ color: "var(--zk-fg-muted)" }}>Project: </span>{invoice.projectName}</p>
         )}
+        <p className="mb-3 text-sm"><span style={{ color: "var(--zk-fg-muted)" }}>Buyer VAT No: </span>{invoice.buyerVatNumber || "N/A"}</p>
 
         <div className="overflow-hidden overflow-x-auto rounded-xl border" style={{ borderColor: "var(--zk-border)" }}>
           <table className="w-full min-w-[480px] text-sm">
@@ -128,7 +130,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
 
         <div className="mt-4 flex flex-col items-end gap-1 text-sm">
           <div style={{ color: "var(--zk-fg-muted)" }}>Subtotal: {formatCurrency(subtotal, invoice.currency)}</div>
-          <div style={{ color: "var(--zk-fg-muted)" }}>Tax ({Number(invoice.taxRate)}%): {formatCurrency(taxAmount, invoice.currency)}</div>
+          <div style={{ color: "var(--zk-fg-muted)" }}>VAT ({Number(invoice.taxRate)}%): {formatCurrency(taxAmount, invoice.currency)}</div>
           <div className="text-base font-bold">Total: {formatCurrency(total, invoice.currency)}</div>
         </div>
       </div>

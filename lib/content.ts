@@ -29,6 +29,12 @@ export const COMPANY_LEGAL_NAME = "ZUNARK";
 export const COMPANY_OFFICIAL_PHONE = WHATSAPP_DISPLAY;
 export const COMPANY_WEBSITE = "www.zunark-ai.com";
 
+// Blank until ZATCA VAT registration is issued — fill in and every new
+// invoice/contract picks it up automatically. Same for the CR number.
+export const COMPANY_VAT_NUMBER = "";
+export const COMPANY_CR_NUMBER = "";
+export const COMPANY_ADDRESS = "";
+
 export const BANK_DETAILS = {
   bankName: "IndusInd Bank",
   accountHolder: "Mohammed Zahid Khan",

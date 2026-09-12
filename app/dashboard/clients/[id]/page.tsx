@@ -46,6 +46,18 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
             <div className="text-sm">{client.industry}</div>
           </div>
         )}
+        {client.vatNumber && (
+          <div>
+            <div className="text-xs" style={{ color: "var(--zk-fg-muted)" }}>VAT number</div>
+            <div className="text-sm">{client.vatNumber}</div>
+          </div>
+        )}
+        {client.address && (
+          <div className="sm:col-span-2">
+            <div className="text-xs" style={{ color: "var(--zk-fg-muted)" }}>Address</div>
+            <p className="whitespace-pre-wrap text-sm">{client.address}</p>
+          </div>
+        )}
         {client.notes && (
           <div className="sm:col-span-2">
             <div className="text-xs" style={{ color: "var(--zk-fg-muted)" }}>Notes</div>

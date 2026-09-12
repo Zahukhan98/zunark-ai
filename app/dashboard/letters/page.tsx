@@ -54,7 +54,8 @@ export default async function LettersPage() {
                 <span className="text-xs" style={{ color: "var(--zk-fg-muted)" }}>{letter.letterDate.toLocaleDateString()}</span>
               </div>
               <p className="mt-1 text-xs" style={{ color: "var(--zk-fg-muted)" }}>
-                {letter.recipientName ? `To: ${letter.recipientName} · ` : ""}Signed by {signerName(letter.signedBy)}
+                {letter.recipientName ? `To: ${letter.recipientName} · ` : ""}
+                Signed by {letter.type === "CONTRACT" ? "both founders" : signerName(letter.signedBy)}
               </p>
             </Link>
           ))}

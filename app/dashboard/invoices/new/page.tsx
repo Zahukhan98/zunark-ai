@@ -3,7 +3,7 @@ import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
 import { generateInvoiceNumber } from "@/lib/invoice";
 import { BANK_DETAILS } from "@/lib/content";
-import { InvoiceItemsEditor } from "@/components/dashboard/InvoiceItemsEditor";
+import { InvoiceForm } from "@/components/dashboard/InvoiceForm";
 import { redirect } from "next/navigation";
 import type { Role } from "@prisma/client";
 
@@ -15,12 +15,16 @@ async function createInvoice(formData: FormData) {
     throw new Error("Not authorized");
   }
 
+  const clientId = String(formData.get("clientId") || "").trim();
+  const projectId = String(formData.get("projectId") || "").trim();
   const clientName = String(formData.get("clientName") || "").trim();
   const clientCompany = String(formData.get("clientCompany") || "").trim();
   const clientEmail = String(formData.get("clientEmail") || "").trim();
   const clientAddress = String(formData.get("clientAddress") || "").trim();
+  const buyerVatNumber = String(formData.get("buyerVatNumber") || "").trim();
   const projectName = String(formData.get("projectName") || "").trim();
   const dueDateRaw = String(formData.get("dueDate") || "");
+  const currency = String(formData.get("currency") || "SAR").trim();
   const taxRate = Number(formData.get("taxRate") || 0);
   const notes = String(formData.get("notes") || "").trim();
   const paymentDetails = String(formData.get("paymentDetails") || "").trim();
@@ -44,12 +48,16 @@ async function createInvoice(formData: FormData) {
   const invoice = await prisma.invoice.create({
     data: {
       invoiceNumber,
+      clientId: clientId || null,
+      projectId: projectId || null,
       clientName,
       clientCompany: clientCompany || null,
       clientEmail: clientEmail || null,
       clientAddress: clientAddress || null,
+      buyerVatNumber: buyerVatNumber || null,
       projectName: projectName || null,
       dueDate: dueDateRaw ? new Date(dueDateRaw) : null,
+      currency: currency || "SAR",
       taxRate,
       notes: notes || null,
       paymentDetails: paymentDetails || null,
@@ -68,17 +76,6 @@ async function createInvoice(formData: FormData) {
   redirect(`/dashboard/invoices/${invoice.id}`);
 }
 
-const inputStyle = { background: "var(--zk-panel-soft)", borderColor: "var(--zk-border)", color: "var(--zk-fg)" };
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <label className="flex flex-col gap-1.5">
-      <span className="text-xs font-medium" style={{ color: "var(--zk-fg-muted)" }}>{label}</span>
-      {children}
-    </label>
-  );
-}
-
 const defaultPaymentDetails = `${BANK_DETAILS.bankName}\nAccount Holder: ${BANK_DETAILS.accountHolder}\nAccount Number: ${BANK_DETAILS.accountNumber}\nIFSC: ${BANK_DETAILS.ifsc}`;
 
 export default async function NewInvoicePage() {
@@ -87,46 +84,41 @@ export default async function NewInvoicePage() {
     redirect("/dashboard");
   }
 
+  const [clients, projects] = await Promise.all([
+    prisma.client.findMany({ orderBy: { name: "asc" } }),
+    prisma.project.findMany({ include: { client: true }, orderBy: { name: "asc" } }),
+  ]);
+
+  const clientOptions = clients.map((c) => ({
+    id: c.id,
+    name: c.name,
+    company: c.company,
+    email: c.email,
+    address: c.address,
+    vatNumber: c.vatNumber,
+  }));
+
+  const projectOptions = projects.map((p) => ({
+    id: p.id,
+    name: p.name,
+    clientId: p.clientId,
+    cost: Number(p.clientPrice ?? p.estimatedCost ?? 0),
+    client: {
+      id: p.client.id,
+      name: p.client.name,
+      company: p.client.company,
+      email: p.client.email,
+      address: p.client.address,
+      vatNumber: p.client.vatNumber,
+    },
+  }));
+
   return (
     <div>
       <h1 className="mb-6 text-2xl font-bold" style={{ fontFamily: "var(--font-display-fam)" }}>New Invoice</h1>
 
       <form action={createInvoice} className="flex max-w-3xl flex-col gap-6">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Field label="Client name *">
-            <input name="clientName" required className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
-          </Field>
-          <Field label="Client company">
-            <input name="clientCompany" className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
-          </Field>
-          <Field label="Client email">
-            <input name="clientEmail" type="email" className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
-          </Field>
-          <Field label="Project name">
-            <input name="projectName" className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
-          </Field>
-          <div className="sm:col-span-2">
-            <Field label="Client address">
-              <textarea name="clientAddress" rows={2} className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
-            </Field>
-          </div>
-          <Field label="Due date">
-            <input name="dueDate" type="date" className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
-          </Field>
-        </div>
-
-        <div>
-          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide" style={{ color: "var(--zk-accent1)" }}>Line items</h2>
-          <InvoiceItemsEditor />
-        </div>
-
-        <Field label="Payment details (shown on the invoice)">
-          <textarea name="paymentDetails" rows={4} defaultValue={defaultPaymentDetails} className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
-        </Field>
-
-        <Field label="Notes / terms (optional)">
-          <textarea name="notes" rows={3} className="rounded-lg border px-3 py-2.5 text-sm outline-none" style={inputStyle} />
-        </Field>
+        <InvoiceForm clients={clientOptions} projects={projectOptions} defaultPaymentDetails={defaultPaymentDetails} />
 
         <button
           type="submit"

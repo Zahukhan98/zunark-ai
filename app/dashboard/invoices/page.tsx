@@ -81,7 +81,7 @@ export default async function InvoicesPage() {
                         {inv.status}
                       </span>
                     </td>
-                    <td className="px-4 py-3" style={{ color: "var(--zk-fg-muted)" }}>{inv.issueDate.toLocaleDateString()}</td>
+                    <td className="px-4 py-3" style={{ color: "var(--zk-fg-muted)" }}>{inv.issueDate.toLocaleString()}</td>
                   </tr>
                 );
               })}

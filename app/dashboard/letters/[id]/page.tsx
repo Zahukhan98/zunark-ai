@@ -5,6 +5,7 @@ import { hasPermission } from "@/lib/permissions";
 import { notFound, redirect } from "next/navigation";
 import type { Role } from "@prisma/client";
 import { FOUNDERS } from "@/lib/content";
+import { formatCurrency } from "@/lib/invoice";
 
 function signerName(signedBy: "ZAHID" | "KAMAR") {
   return signedBy === "ZAHID" ? FOUNDERS[0].name : FOUNDERS[1].name;
@@ -44,7 +45,7 @@ export default async function LetterDetailPage({ params }: { params: Promise<{ i
             )}
           </div>
           <p className="text-sm" style={{ color: "var(--zk-fg-muted)" }}>
-            {letter.letterDate.toLocaleDateString()} · Signed by {signerName(letter.signedBy)}
+            {letter.letterDate.toLocaleDateString()} · Signed by {letter.type === "CONTRACT" ? "both founders" : signerName(letter.signedBy)}
             {letter.project && (
               <>
                 {" · "}
@@ -74,6 +75,13 @@ export default async function LetterDetailPage({ params }: { params: Promise<{ i
         )}
         {letter.recipientAddress && (
           <p className="mb-4 whitespace-pre-wrap text-sm" style={{ color: "var(--zk-fg-muted)" }}>{letter.recipientAddress}</p>
+        )}
+        {letter.type === "CONTRACT" && (
+          <div className="mb-4 flex flex-wrap gap-2 text-xs">
+            {letter.projectStartDate && <span className="rounded-full border px-2.5 py-1" style={{ borderColor: "var(--zk-border)", color: "var(--zk-fg-muted)" }}>Start: {letter.projectStartDate.toLocaleDateString()}</span>}
+            {letter.projectDeliveryDate && <span className="rounded-full border px-2.5 py-1" style={{ borderColor: "var(--zk-border)", color: "var(--zk-fg-muted)" }}>Delivery: {letter.projectDeliveryDate.toLocaleDateString()}</span>}
+            {letter.contractCost != null && <span className="rounded-full border px-2.5 py-1" style={{ borderColor: "var(--zk-border)", color: "var(--zk-fg-muted)" }}>Cost: {formatCurrency(Number(letter.contractCost), letter.contractCurrency || "SAR")}</span>}
+          </div>
         )}
         <p className="whitespace-pre-wrap text-sm leading-relaxed">{letter.body}</p>
 
