@@ -165,9 +165,14 @@ export default async function DashboardHome() {
           <QuickAction label="Start or schedule a meeting" href="/dashboard/meetings" />
           {canViewInquiries && <QuickAction label="Review new inquiries" href="/dashboard/inquiries" />}
           <QuickAction label="View clients" href="/dashboard/clients" />
-          <QuickAction label="View projects" href="/dashboard/projects" />
+          {hasPermission(role, "MANAGE_PROJECTS") ? (
+            <QuickAction label="Add a project" href="/dashboard/projects/new" />
+          ) : (
+            <QuickAction label="View projects" href="/dashboard/projects" />
+          )}
           {hasPermission(role, "MANAGE_INVOICES") && <QuickAction label="Create an invoice" href="/dashboard/invoices/new" />}
           {hasPermission(role, "MANAGE_LETTERS") && <QuickAction label="Write a letter" href="/dashboard/letters/new" />}
+          {hasPermission(role, "MANAGE_LETTERS") && <QuickAction label="Draft a contract" href="/dashboard/contracts/new" />}
           {hasPermission(role, "MANAGE_USERS") && <QuickAction label="Manage team users" href="/dashboard/users" />}
         </div>
       </div>

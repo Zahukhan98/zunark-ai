@@ -18,8 +18,8 @@ async function deleteLetter(formData: FormData) {
     throw new Error("Not authorized");
   }
   const id = String(formData.get("id"));
-  await prisma.letter.delete({ where: { id } });
-  redirect("/dashboard/letters");
+  const letter = await prisma.letter.delete({ where: { id } });
+  redirect(letter.type === "CONTRACT" ? "/dashboard/contracts" : "/dashboard/letters");
 }
 
 export default async function LetterDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -93,8 +93,8 @@ export default async function LetterDetailPage({ params }: { params: Promise<{ i
         </form>
       </div>
 
-      <Link href="/dashboard/letters" className="zk-link text-sm font-medium" style={{ color: "var(--zk-accent1)" }}>
-        ← Back to letters
+      <Link href={letter.type === "CONTRACT" ? "/dashboard/contracts" : "/dashboard/letters"} className="zk-link text-sm font-medium" style={{ color: "var(--zk-accent1)" }}>
+        ← Back to {letter.type === "CONTRACT" ? "contracts" : "letters"}
       </Link>
     </div>
   );

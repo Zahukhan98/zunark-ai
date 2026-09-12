@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { GridIcon, MailIcon, UsersIcon, FolderIcon, PersonIcon, InvoiceIcon, DocumentIcon, VideoIcon } from "@/components/public/icons";
+import { GridIcon, MailIcon, UsersIcon, FolderIcon, PersonIcon, InvoiceIcon, DocumentIcon, CheckIcon, VideoIcon } from "@/components/public/icons";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Overview", icon: GridIcon, exact: true },
@@ -13,6 +13,7 @@ const NAV_ITEMS = [
   { href: "/dashboard/projects", label: "Projects", icon: FolderIcon },
   { href: "/dashboard/invoices", label: "Invoices", icon: InvoiceIcon, roles: ["SUPER_ADMIN", "ADMIN"] },
   { href: "/dashboard/letters", label: "Letters", icon: DocumentIcon, roles: ["SUPER_ADMIN", "ADMIN"] },
+  { href: "/dashboard/contracts", label: "Contracts", icon: CheckIcon, roles: ["SUPER_ADMIN", "ADMIN"] },
   { href: "/dashboard/users", label: "Users", icon: PersonIcon, roles: ["SUPER_ADMIN"] },
 ];
 
